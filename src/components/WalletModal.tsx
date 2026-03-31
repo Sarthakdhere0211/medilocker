@@ -30,11 +30,18 @@ const WalletConnectLogo = () => (
 )
 
 export const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
-  const { connectFreighter, isLoading } = useWalletStore()
+  const { connectFreighter, isLoading, isConnected: isWalletConnected } = useWalletStore()
 
   const handleFreighter = async () => {
-    await connectFreighter()
-    onClose()
+    try {
+      await connectFreighter()
+      // Check if connection was actually successful before closing
+      if (useWalletStore.getState().isConnected) {
+        onClose()
+      }
+    } catch (error) {
+      console.error('Wallet connection failed:', error)
+    }
   }
 
   if (!isOpen) return null

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { isAllowed, setAllowed, getPublicKey, isConnected } from '@stellar/freighter-api'
+import { isAllowed, getPublicKey, isConnected, requestAccess } from '@stellar/freighter-api'
 import { toast } from 'sonner'
 import * as StellarSdk from '@stellar/stellar-sdk'
 
@@ -53,27 +53,40 @@ export const useWalletStore = create<WalletState>((set, get) => ({
         return
       }
 
-      // 2. Request access (triggers popup)
-      const allowed = await setAllowed()
-      if (!allowed) {
-        toast.error('Connection request rejected.')
-        set({ isLoading: false, error: 'Access denied' })
-        return
+      // 2. Check if already connected/unlocked
+      let key = ''
+      try {
+        key = await getPublicKey()
+      } catch (e) {
+        // Not connected or locked, proceed to requestAccess
       }
 
-      // 3. Get public key
-      const key = await getPublicKey()
+      if (!key) {
+        // 3. Request access (triggers popup)
+        // We await this fully to ensure we get the result after user interaction
+        key = await requestAccess()
+      }
+
       if (key) {
         set({ publicKey: key, isConnected: true, isLoading: false, walletType: 'freighter' })
         toast.success('Successfully connected to Freighter!')
         await get().fetchBalance(key)
       } else {
-        throw new Error('Failed to retrieve public key')
+        // If key is still empty after requestAccess, it means user rejected or closed popup
+        set({ isLoading: false, error: 'Access denied' })
+        toast.error('Connection request rejected.')
       }
     } catch (err: any) {
       console.error('Freighter connection error:', err)
-      set({ isLoading: false, error: err.message || 'Connection failed' })
-      toast.error(err.message || 'Failed to connect wallet')
+      
+      // Handle specific error cases if needed
+      const errorMessage = err.message || 'Connection failed'
+      set({ isLoading: false, error: errorMessage })
+      
+      // Don't toast if it was a user cancellation that we already handled above
+      if (errorMessage !== 'Access denied') {
+        toast.error(errorMessage)
+      }
     }
   },
 
