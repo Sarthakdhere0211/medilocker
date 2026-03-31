@@ -1,66 +1,91 @@
-# MediLocker - Personal Health Record Vault
+# MediLocker — Personal Health Record Vault
 
-MediLocker is a decentralized web application (dApp) built on the Stellar network using Soroban smart contracts. It provides a secure, private, and user-owned vault for medical records.
+**MediLocker** is a production-ready decentralized application (dApp) built on the **Stellar Network**. It empowers users to securely store, manage, and share their medical records with a premium SaaS experience, leveraging blockchain for immutable anchoring and ownership verification.
+
+---
 
 ## 🚀 Key Features
 
-- **Wallet-Based Authentication**: Uses Freighter wallet for secure, passwordless login.
-- **On-Chain Metadata**: Stores record metadata and access permissions on the Stellar blockchain.
-- **Decentralized Access Control**: Grant and revoke access to your records for specific wallet addresses.
-- **Modern UI/UX**: Clean, responsive interface with smooth animations (Framer Motion).
-- **Security First**: Your medical history is owned by you, not a central authority.
+### 🔐 Real Wallet Integration
+- **Freighter Wallet**: Secure connection and transaction signing using the official `@stellar/freighter-api`.
+- **Testnet Ready**: Fully functional on the Stellar Testnet with real-time balance fetching.
+
+### 🏗️ Hybrid Storage Architecture
+- **On-Chain Anchoring**: Stores unique record references using Stellar's `manageData` operations (permanently tied to your public key).
+- **Persistent Vault**: High-performance off-chain storage for record metadata and files, ensuring data survives sessions and refreshes.
+- **64-Byte Optimized**: Intelligent data restructuring to comply with Stellar protocol limits while maintaining rich record metadata.
+
+### 📂 Medical Document Management
+- **Instant Preview**: View medical PDFs and images directly within the app using secure Blob gateways.
+- **On-Chain Sharing**: Grant viewing permissions to other wallet addresses through real signed Stellar transactions.
+- **Stellar Expert Integration**: Every action generates a real transaction hash with direct links to the blockchain explorer.
+
+### 🎨 Premium UI/UX
+- **SaaS Layout**: Professional sidebar/topbar navigation with a clean Inter/Poppins typography system.
+- **Framer Motion**: Purposeful, high-fidelity animations for a "human-designed" feel.
+- **Dark/Light Surface**: A refined palette using `brand-600` Indigo and `surface-50` Off-white.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React, Vite, TypeScript, Tailwind CSS
-- **Blockchain**: Stellar Soroban (Rust), Stellar SDK, Freighter API
-- **State Management**: Zustand
-- **Animations**: Framer Motion
-- **Toasts**: Sonner
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | React 18, Vite, TypeScript |
+| **Styling** | Tailwind CSS |
+| **Blockchain** | Stellar SDK, Freighter API |
+| **State** | Zustand (with Persistence) |
+| **Icons** | Lucide React |
+| **Notifications** | Sonner |
 
-## 🏗️ System Architecture
-
-### On-Chain (Soroban Smart Contract)
-The `MediLocker` contract handles:
-- `upload_record`: Stores record metadata (ID, Title, File Hash, Owner).
-- `share_record`: Manages the access control list (ACL) for each record.
-- `has_access`: Verifies if a viewer is authorized to see a record.
-
-### Off-Chain
-Medical files (PDFs/Images) are intended to be stored on IPFS or encrypted cloud storage. The blockchain stores the cryptographic hash of these files to ensure data integrity and ownership.
-
-## 📂 Project Structure
-
-- `/contracts`: Soroban smart contract (Rust).
-- `/src/components`: Reusable UI components (Navbar, Modals, etc.).
-- `/src/pages`: Main application views (Landing, Dashboard).
-- `/src/store`: Global state management using Zustand.
-- `/src/lib`: Blockchain integration logic.
+---
 
 ## 🚦 Getting Started
 
-1. **Install Dependencies**:
+### Prerequisites
+1. **Node.js**: Version 16.x or higher.
+2. **Freighter Wallet**: Install the [Freighter Extension](https://www.freighter.app/) in your browser.
+3. **Testnet XLM**: Fund your wallet via [Stellar Laboratory Friendbot](https://laboratory.stellar.org/#account-creator?network=testnet).
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/medilocker.git
+   cd medilocker
+   ```
+
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-2. **Run Development Server**:
+3. Start the development server:
    ```bash
    npm run dev
    ```
 
-3. **Build for Production**:
-   ```bash
-   npm run build
-   ```
+---
 
-## 🔒 Security & Privacy
+## 🏗️ Architecture Overview
 
-MediLocker follows decentralized design principles:
-- **Minimal Data Exposure**: Only necessary metadata is stored on-chain.
-- **User Control**: Only the record owner can grant access to others.
-- **Tamper-Proof**: Blockchain records ensure your medical history cannot be altered without authorization.
+MediLocker uses a **Reference-Based Blockchain Model**:
+1. **Upload**: User uploads a file; the app generates a unique CID (hash) and a secure local URL.
+2. **Anchor**: A Stellar `manageData` transaction is built containing only the `recordId`.
+3. **Verify**: Freighter signs the transaction, and it is submitted to the **Stellar Testnet**.
+4. **Retrieve**: Upon login, the app syncs with the blockchain to verify which record IDs are owned by the user before displaying them in the vault.
 
 ---
 
-Built with ❤️ for the Stellar Soroban Ecosystem.
+## 🛡️ Security & Privacy
+- **User Ownership**: Your health data identity is your Stellar Public Key.
+- **Minimal Exposure**: No sensitive medical data is ever stored directly on the blockchain.
+- **Transparency**: Every record anchoring and sharing event is publicly verifiable on [Stellar Expert](https://stellar.expert).
+
+---
+
+## 📄 License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+Built with ❤️ for the Stellar Ecosystem.
