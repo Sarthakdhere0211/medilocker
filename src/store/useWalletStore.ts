@@ -31,6 +31,7 @@ interface WalletState {
   disconnect: () => void
   checkConnection: () => Promise<void>
   fetchBalance: (pubKey: string) => Promise<void>
+  deductBalance: (amount: number) => void
 }
 
 export const useWalletStore = create<WalletState>((set, get) => ({
@@ -103,6 +104,12 @@ export const useWalletStore = create<WalletState>((set, get) => ({
       console.error('Error fetching balance:', err)
       set({ balance: '0.00' }) // Assume 0 if not funded on testnet
     }
+  },
+
+  deductBalance: (amount: number) => {
+    set((state) => ({
+      balance: (parseFloat(state.balance) - amount).toFixed(2)
+    }))
   },
 
   disconnect: () => {
