@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: #1e293b;
+  background-color: #f8fafc; /* surface-50 */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+}
+
+/* Custom Scrollbar for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-indigo-700;
+}
+
+/* Human-designed button style */
+.btn-primary {
+  @apply px-6 py-2.5 bg-brand-600 text-white rounded-xl font-semibold 
+         transition-all duration-200 shadow-soft hover:shadow-premium 
+         hover:-translate-y-0.5 active:translate-y-0 active:scale-95
+         disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+}
+
+.btn-secondary {
+  @apply px-6 py-2.5 bg-white text-surface-700 border border-surface-200 
+         rounded-xl font-semibold transition-all duration-200 
+         hover:bg-surface-50 hover:border-brand-200 active:scale-95;
+}
+
+.card-premium {
+  @apply bg-white rounded-3xl p-6 border border-surface-100 shadow-soft 
+         transition-all duration-300 hover:shadow-premium hover:-translate-y-1;
+}
