@@ -94,8 +94,6 @@ Product Feedback (Rating + Comments)
 
 The responses were automatically recorded using Google Sheets and later exported into an Excel file for analysi
 
-Total Users Onboarded: 5+
-Testnet users interacted with the MVP and provided feedback.
 ---
 
 ## 📄 License
