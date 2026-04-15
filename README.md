@@ -83,6 +83,21 @@ MediLocker uses a **Reference-Based Blockchain Model**:
 
 ---
 
+## User Onboarding & Feedback Collection
+
+We created a Google Form to onboard users and collect important details such as:
+
+Name
+Email
+Wallet Address
+Product Feedback (Rating + Comments)
+
+The responses were automatically recorded using Google Sheets and later exported into an Excel file for analysi
+
+Total Users Onboarded: 5+
+Testnet users interacted with the MVP and provided feedback.
+---
+
 ## 📄 License
 Distributed under the MIT License. See `LICENSE` for more information.
 
