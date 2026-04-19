@@ -26,8 +26,12 @@ jobs:
           cache: 'npm' # Caches node_modules based on package-lock.json for faster builds
 
       - name: 📦 Install Dependencies
-        run: npm install
-        # Installs all project dependencies
+        run: npm ci
+        # Uses clean install for deterministic builds in CI
+
+      - name: 🧹 Lint Check
+        run: npm run lint
+        # Verifies code style and potential errors
 
       - name: ⌨️ TypeScript Type Check
         run: npx tsc --noEmit
