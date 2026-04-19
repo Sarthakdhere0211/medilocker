@@ -1,6 +1,6 @@
 # MediLocker — Personal Health Record Vault
 
-![CI Status](https://github.com/Sarthak-dhere/MediLocker/actions/workflows/ci.yml/badge.svg)
+![CI Status](https://github.com/Sarthakdhere0211/medilocker/actions/workflows/ci.yml/badge.svg)
 
 **MediLocker** is a production-ready decentralized application (dApp) built on the **Stellar Network**. It empowers users to securely store, manage, and share their medical records with a premium SaaS experience, leveraging blockchain for immutable anchoring and ownership verification.
 
