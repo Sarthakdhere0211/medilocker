@@ -22,6 +22,11 @@ const AssetClass = getStellarClass('Asset');
 const NetworksNamespace = getStellarClass('Networks');
 const BASE_FEE_VALUE = (StellarSdk as any).BASE_FEE || (StellarSdk as any).default?.BASE_FEE || "100";
 
+// For Soroban interactions
+const ContractClass = getStellarClass('Contract');
+const AddressClass = getStellarClass('Address');
+const xdrNamespace = getStellarClass('xdr');
+
 const horizonServer = HorizonServer ? new HorizonServer(HORIZON_URL) : null;
 
 /**

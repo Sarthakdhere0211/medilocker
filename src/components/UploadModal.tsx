@@ -26,8 +26,14 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
-      if (!title) setTitle(e.target.files[0].name.split('.')[0])
+      const selectedFile = e.target.files[0]
+      // Limit to 2MB for local storage persistence in MVP
+      if (selectedFile.size > 2 * 1024 * 1024) {
+        toast.error('File too large. Please upload a file smaller than 2MB for this MVP.')
+        return
+      }
+      setFile(selectedFile)
+      if (!title) setTitle(selectedFile.name.split('.')[0])
     }
   }
 
@@ -53,8 +59,14 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => 
       // Generate unique file hash (CID simulation)
       const fileHash = 'bafybeig' + Math.random().toString(36).substring(7) + Math.random().toString(36).substring(7)
       
-      // Store file OFF-CHAIN (Blob URL for MVP)
-      const fileUrl = URL.createObjectURL(file)
+      // Store file OFF-CHAIN (Persistent Data URL)
+      // Convert file to Base64 to ensure it persists after page refresh
+      const fileUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result as string)
+        reader.onerror = reject
+        reader.readAsDataURL(file)
+      })
       
       const recordData = {
         id,

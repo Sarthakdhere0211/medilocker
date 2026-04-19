@@ -1,0 +1,38 @@
+# MediLocker Continuous Integration
+# This workflow runs on every push and pull request to ensure code quality and build stability.
+
+name: MediLocker CI
+
+on:
+  push:
+    branches: ["**"] # Triggers on every push to any branch
+  pull_request:
+    branches: ["**"] # Triggers on every pull request
+
+jobs:
+  build-and-test:
+    name: 🔹 CI: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔍 Checkout Repository
+        uses: actions/checkout@v4
+        # Fetches the source code from the repository
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Ensures Node.js version >= 18
+          cache: 'npm' # Caches node_modules based on package-lock.json for faster builds
+
+      - name: 📦 Install Dependencies
+        run: npm install
+        # Installs all project dependencies
+
+      - name: ⌨️ TypeScript Type Check
+        run: npx tsc --noEmit
+        # Runs static type checking without generating output files
+
+      - name: 🏗️ Build Project
+        run: npm run build
+        # Verifies that the Vite project builds successfully

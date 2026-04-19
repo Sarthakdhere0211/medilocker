@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Shield, Lock, Share2, Database, ChevronRight, ArrowRight, Wallet, CheckCircle2 } from 'lucide-react'
+import { Shield, Lock, Share2, Database, ChevronRight, Wallet, CheckCircle2 } from 'lucide-react'
 import { useWalletStore } from '../store/useWalletStore'
 import { WalletModal } from '../components/WalletModal'
 

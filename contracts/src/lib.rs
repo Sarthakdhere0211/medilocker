@@ -15,6 +15,8 @@ pub struct Record {
 pub enum DataKey {
     Records(Address), // Vec<Record>
     Shared(String, Address), // bool
+    UserCount, // u32
+    UserExists(Address), // bool
 }
 
 #[contract]
@@ -22,6 +24,27 @@ pub struct MediLocker;
 
 #[contractimpl]
 impl MediLocker {
+    pub fn register_user(env: Env, user: Address) {
+        user.require_auth();
+        
+        let exists_key = DataKey::UserExists(user.clone());
+        let exists: bool = env.storage().persistent().get(&exists_key).unwrap_or(false);
+        
+        if !exists {
+            env.storage().persistent().set(&exists_key, &true);
+            
+            let count_key = DataKey::UserCount;
+            let mut count: u32 = env.storage().persistent().get(&count_key).unwrap_or(0);
+            count += 1;
+            env.storage().persistent().set(&count_key, &count);
+        }
+    }
+
+    pub fn get_user_count(env: Env) -> u32 {
+        let count_key = DataKey::UserCount;
+        env.storage().persistent().get(&count_key).unwrap_or(0)
+    }
+
     pub fn upload_record(env: Env, owner: Address, id: String, title: String, file_hash: String) {
         owner.require_auth();
         
