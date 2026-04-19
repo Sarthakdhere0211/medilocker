@@ -29,12 +29,12 @@ jobs:
         run: npm ci
         # Uses clean install for deterministic builds in CI
 
-      - name: 🧹 Lint Check
+      - name: Lint
         run: npm run lint
         # Verifies code style and potential errors
 
-      - name: ⌨️ TypeScript Type Check
-        run: npx tsc --noEmit
+      - - name: Type check
+          run: npx tsc --noEmit
         # Runs static type checking without generating output files
 
       - name: 🏗️ Build Project
