@@ -28,6 +28,30 @@
 
 ---
 
+🔗 Smart Contract Details
+Blockchain: Stellar Testnet
+Contract Type: Soroban Smart Contract
+Contract ID: CCNL4Y3WFX7YR6LICQOMPD3CL5KET63ZYMCVHDHE3FEB5RMEVNQD6B4Y
+🔍 Explorer
+
+https://stellar.expert/explorer/testnet/contract/CCNL4Y3WFX7YR6LICQOMPD3CL5KET63ZYMCVHDHE3FEB5RMEVNQD6B4Y
+
+<img width="1639" height="476" alt="Screenshot 2026-04-21 152941" src="https://github.com/user-attachments/assets/803e748a-fe84-4dda-952f-0f6e76585dcf" />
+
+---
+
+### 👛 Verified Users
+
+| Name        | Email                  | Wallet Address |
+|------------|------------------------|----------------|
+| Anuj Patil    | anuj24darkside@gmail.com   | GCCKKVQS54JRCSTB64AQEQTMNVQBJ7JDDTP7US7ESBXIAQPMNL3P23F5 |
+| Aditya Shisodiya      | adityasisodiya56412@gmail.com        | GAEJZTWGMZCDGYWOSOVEVT5XTP6WHAK2GLJLG57ZUCJRKHTD4BOVOBF3 |
+| Yash Annadate   | yashannadate2005@gmail.com        | GB6B6QEJFY4HAKATRO6MI77WDZ66W4FFPJN6AYLISJEHTLXYFPHQFFTV |
+| Aniket uday bhilare      | bhilareaniket2424@gmail.com      | GA25HZHRBYNMAX3VPS6PGWX3NULSKSNGWY4C32XCMDU45NQM2Y4PIZ3Z |
+|    Rohit    |     mahiidev0211@gmail.com    | GCPM2OH2DFE7IKZT2DF5HLLLIU464MQ4WPJ5BMDBJ5RFYTAQXRAAFGYB |
+
+---
+
 ## Dapp Images
 <img width="1914" height="859" alt="Screenshot 2026-04-19 213916" src="https://github.com/user-attachments/assets/44b194e2-d13c-407d-978a-7a1838475584" />
 
