@@ -40,16 +40,15 @@ https://stellar.expert/explorer/testnet/contract/CCNL4Y3WFX7YR6LICQOMPD3CL5KET63
 
 ---
 
-### 👛 Verified Users
+## 👛 Verified Users (Testnet)
 
-| Name        | Email                  | Wallet Address |
-|------------|------------------------|----------------|
-| Anuj Patil    | anuj24darkside@gmail.com   | GCCKKVQS54JRCSTB64AQEQTMNVQBJ7JDDTP7US7ESBXIAQPMNL3P23F5 |
-| Aditya Shisodiya      | adityasisodiya56412@gmail.com        | GAEJZTWGMZCDGYWOSOVEVT5XTP6WHAK2GLJLG57ZUCJRKHTD4BOVOBF3 |
-| Yash Annadate   | yashannadate2005@gmail.com        | GB6B6QEJFY4HAKATRO6MI77WDZ66W4FFPJN6AYLISJEHTLXYFPHQFFTV |
-| Aniket uday bhilare      | bhilareaniket2424@gmail.com      | GA25HZHRBYNMAX3VPS6PGWX3NULSKSNGWY4C32XCMDU45NQM2Y4PIZ3Z |
-|    Rohit    |     mahiidev0211@gmail.com    | GCPM2OH2DFE7IKZT2DF5HLLLIU464MQ4WPJ5BMDBJ5RFYTAQXRAAFGYB |
-
+| Name                  | Email                         | Wallet Address |
+|-----------------------|-------------------------------|----------------|
+| Anuj Patil            | anuj24darkside@gmail.com                             | GCCKKVQS54JRCSTB64AQEQTMNVQBJ7JDDTP7US7ESBXIAQPMNL3P23F5 |
+| Aditya Shisodiya      | adityasisodiya56412@gmail.com | GAEJZTWGMZCDGYWOSOVEVT5XTP6WHAK2GLJLG57ZUCJRKHTD4BOVOBF3 |
+| Yash Annadate         | yashannadate2005@gmail.com    | GB6B6QEJFY4HAKATRO6MI77WDZ66W4FFPJN6AYLISJEHTLXYFPHQFFTV |
+| Aniket Uday Bhilare   | bhilareaniket2424@gmail.com   | GA25HZHRBYNMAX3VPS6PGWX3NULSKSNGWY4C32XCMDU45NQM2Y4PIZ3Z |
+| Rohit                 | mahiidev0211@gmail.com        | GCPM2OH2DFE7IKZT2DF5HLLLIU464MQ4WPJ5BMDBJ5RFYTAQXRAAFGYB |
 ---
 
 ## Dapp Images
