@@ -28,7 +28,7 @@ https://medilocker-fawn.vercel.app
 
 ## 🎥 Demo Video
 
-⬇️ [Download Demo Video](./public/demo.mp4)
+⬇️ [Watch Demo Video](./public/demo.mp4)
 
 ---
 
@@ -209,7 +209,7 @@ https://stellar.expert/explorer/testnet/contract/CCNL4Y3WFX7YR6LICQOMPD3CL5KET63
 2. **Hashing**: App generates a unique cryptographic hash (CID) of the file.
 3. **Stellar Anchoring**: A `manageData` transaction is sent to Stellar Testnet, mapping the `recordId` to the `fileHash`.
 4. **Firebase Indexing**: Metadata (title, type, size) is indexed in Firebase for fast retrieval, mapped to the user's wallet address.
->>>>>>> 1e096f3 (Added demo video)
+
 
 ### 2. Retrieval & Verification
 1. **Login**: User connects via Freighter.
