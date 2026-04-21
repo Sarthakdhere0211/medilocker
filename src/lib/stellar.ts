@@ -1,5 +1,30 @@
 import * as StellarSdk from '@stellar/stellar-sdk';
-import { signTransaction } from '@stellar/freighter-api';
+import * as FreighterApi from '@stellar/freighter-api';
+
+/**
+ * Robustly get a method from Freighter API regardless of module structure
+ */
+const getFreighterMethod = (name: string) => {
+  const method = (FreighterApi as any)[name] || (FreighterApi as any).default?.[name];
+  if (!method) {
+    console.warn(`[Freighter] Method ${name} not found in @stellar/freighter-api`);
+  }
+  return method;
+};
+
+const signTransaction = getFreighterMethod('signTransaction');
+const isConnected = getFreighterMethod('isConnected');
+
+/**
+ * Robustly handle extension communication errors
+ */
+const handleExtensionError = (err: any) => {
+  const msg = err.message || '';
+  if (msg.includes('context invalidated') || msg.includes('Unable to send message')) {
+    return new Error('Wallet connection lost. Please refresh the page and try again.');
+  }
+  return err;
+};
 
 const CONTRACT_ID = 'CCF2A7X6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6'; // Placeholder
 const HORIZON_URL = 'https://horizon-testnet.stellar.org';
@@ -20,7 +45,7 @@ const TransactionBuilderClass = getStellarClass('TransactionBuilder');
 const OperationNamespace = getStellarClass('Operation');
 const AssetClass = getStellarClass('Asset');
 const NetworksNamespace = getStellarClass('Networks');
-const BASE_FEE_VALUE = (StellarSdk as any).BASE_FEE || (StellarSdk as any).default?.BASE_FEE || "100";
+const BASE_FEE_VALUE = "1000"; // Increased fee for faster inclusion (0.0001 XLM)
 
 // For Soroban interactions
 const ContractClass = getStellarClass('Contract');
@@ -34,6 +59,24 @@ const horizonServer = HorizonServer ? new HorizonServer(HORIZON_URL) : null;
  */
 function isValidStellarAddress(address: string): boolean {
   return typeof address === 'string' && address.startsWith('G') && address.length === 56;
+}
+
+/**
+ * Funds an account on Testnet using Friendbot.
+ */
+export async function fundAccount(publicKey: string): Promise<boolean> {
+  try {
+    console.log(`[Stellar] Requesting funds from Friendbot for ${publicKey}...`);
+    const response = await fetch(`https://friendbot.stellar.org/?addr=${publicKey}`);
+    if (response.ok) {
+      console.log('[Stellar] Account successfully funded by Friendbot.');
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.error('[Stellar] Friendbot funding error:', err);
+    return false;
+  }
 }
 
 /**
@@ -54,7 +97,25 @@ export async function uploadRecordOnChain(
 
     console.log('[Stellar] Building transaction with manageData for record ID storage...');
     
-    const account = await (horizonServer as any).loadAccount(publicKey);
+    let account;
+    try {
+      account = await (horizonServer as any).loadAccount(publicKey);
+    } catch (err: any) {
+      // If account not found (404), it's a new account on Testnet
+      if (err.response?.status === 404) {
+        console.log('[Stellar] Account not found on Testnet. Attempting to fund via Friendbot...');
+        const funded = await fundAccount(publicKey);
+        if (funded) {
+          // Wait a bit for Horizon to index the new account
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          account = await (horizonServer as any).loadAccount(publicKey);
+        } else {
+          throw new Error('Your wallet is not activated on Testnet. Please fund it at https://laboratory.stellar.org/#account-creator');
+        }
+      } else {
+        throw err;
+      }
+    }
     
     // Store only the record ID (short string) to stay within 64-byte limit
     const value = recordId;
@@ -69,18 +130,57 @@ export async function uploadRecordOnChain(
           value: value,
         })
       )
-      .setTimeout(30)
+      .setTimeout(180) // Increased timeout to 3 minutes
       .build();
 
     console.log('[Stellar] Transaction Operations: 1 (manageData)');
     console.log('[Stellar] Transaction XDR:', transaction.toXDR());
     console.log('[Stellar] Requesting signature from Freighter...');
     const xdr = transaction.toXDR();
-    const signedXDR = await signTransaction(xdr, { network: 'TESTNET' });
+    
+    if (!signTransaction) {
+      throw new Error('Freighter signTransaction method not found. Please ensure Freighter is installed.');
+    }
+
+    // Verify connection status before signing
+    if (isConnected) {
+      const isStillConnected = await isConnected();
+      if (!isStillConnected) {
+        throw new Error('Wallet is disconnected or locked. Please unlock Freighter.');
+      }
+    }
+
+    let signedXDR;
+    try {
+      signedXDR = await signTransaction(xdr, { network: 'TESTNET' });
+    } catch (e: any) {
+      throw handleExtensionError(e);
+    }
 
     console.log('[Stellar] Submitting transaction to Horizon...');
     const signedTx = new (TransactionBuilderClass as any).fromXDR(signedXDR, (NetworksNamespace as any).TESTNET);
-    const result = await (horizonServer as any).submitTransaction(signedTx);
+    
+    let result;
+    try {
+      result = await (horizonServer as any).submitTransaction(signedTx);
+    } catch (submitErr: any) {
+      // Detailed logging for submission errors
+      if (submitErr.response?.data?.extras?.result_codes) {
+        const codes = submitErr.response.data.extras.result_codes;
+        console.error('[Stellar] Submission Error Details:', JSON.stringify(codes, null, 2));
+        
+        if (codes.transaction === 'tx_bad_seq') {
+          throw new Error('Sequence number mismatch. Please try again in a few seconds.');
+        }
+        if (codes.transaction === 'tx_insufficient_balance') {
+          throw new Error('Insufficient XLM balance for transaction fees.');
+        }
+        if (codes.operations?.includes('op_not_supported')) {
+          throw new Error('This operation is not supported by your account.');
+        }
+      }
+      throw submitErr;
+    }
     
     const txHash = result.hash;
     console.log('[Stellar] Transaction successful! Hash:', txHash);
@@ -163,7 +263,7 @@ export async function shareRecordOnChain(
 
     console.log('[Stellar] Requesting signature from Freighter...');
     const xdr = transaction.toXDR();
-    const signedXDR = await signTransaction(xdr, { network: 'TESTNET' });
+    const signedXDR = await (FreighterApi as any).signTransaction(xdr, { network: 'TESTNET' });
     
     console.log('[Stellar] Submitting transaction to Horizon...');
     const signedTx = new (TransactionBuilderClass as any).fromXDR(signedXDR, (NetworksNamespace as any).TESTNET);

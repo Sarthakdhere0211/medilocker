@@ -4,6 +4,7 @@ import { X, Upload, FileText, CheckCircle, Loader2, Info, ExternalLink, ShieldCh
 import { useWalletStore } from '../store/useWalletStore'
 import { useRecordStore } from '../store/useRecordStore'
 import { uploadRecordOnChain } from '../lib/stellar'
+import { indexRecord, logActivity } from '../lib/firebase'
 import { toast } from 'sonner'
 
 interface UploadModalProps {
@@ -16,7 +17,8 @@ const STORAGE_FEE = 0.00 // Minimal network fee only
 export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
   const { publicKey, balance, deductBalance, fetchBalance } = useWalletStore()
   const { addRecord } = useRecordStore()
-  const [step, setStep] = useState<'upload' | 'confirm' | 'success'>('upload')
+  const [step, setStep] = useState<'upload' | 'confirm' | 'success' | 'error'>('upload')
+  const [errorMessage, setErrorMessage] = useState('')
   const [isUploading, setIsUploading] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
@@ -49,10 +51,19 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => 
     setStep('confirm')
   }
 
+  const [uploadStatus, setUploadStatus] = useState<'idle' | 'signing' | 'submitting'>('idle')
+
   const handleFinalSubmit = async () => {
     if (!file || !title) return
 
     setIsUploading(true)
+    setUploadStatus('signing')
+    
+    // Create a timeout promise to prevent hanging (Increased to 3 minutes to match Stellar timeout)
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Transaction timed out. Please check if your Freighter wallet is locked or needs attention.')), 180000)
+    )
+
     try {
       const id = Math.random().toString(36).substring(7)
       
@@ -60,7 +71,6 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => 
       const fileHash = 'bafybeig' + Math.random().toString(36).substring(7) + Math.random().toString(36).substring(7)
       
       // Store file OFF-CHAIN (Persistent Data URL)
-      // Convert file to Base64 to ensure it persists after page refresh
       const fileUrl = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader()
         reader.onload = () => resolve(reader.result as string)
@@ -79,14 +89,28 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => 
         size: (file.size / (1024 * 1024)).toFixed(2) + ' MB'
       }
 
-      // REAL Stellar transaction via Freighter (Anchoring only the record ID to stay within 64-byte limit)
-      const { hash } = await uploadRecordOnChain(publicKey!, id)
+      // REAL Stellar transaction with timeout protection
+      const result = await Promise.race([
+        uploadRecordOnChain(publicKey!, id).then(res => {
+          setUploadStatus('submitting');
+          return res;
+        }),
+        timeoutPromise
+      ]) as { hash: string }
+      
+      const { hash } = result
       setLastTxHash(hash)
 
       const newRecord = {
         ...recordData,
         txHash: hash
       }
+
+      // --- Indexing & Metrics Layer (Non-blocking) ---
+      indexRecord(publicKey!, newRecord).catch(err => {
+        console.error('Indexing error:', err);
+        toast.error('Record secured on-chain, but indexing failed. It might take a moment to appear in your dashboard.');
+      })
 
       await fetchBalance(publicKey!) // Refresh real balance
       addRecord(newRecord)
@@ -95,6 +119,13 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => 
       setStep('success')
     } catch (err: any) {
       console.error('Upload error:', err)
+      
+      // Log the failure (Non-blocking)
+      logActivity(publicKey || 'unknown', 'UPLOAD_FAILURE', { 
+        title, 
+        error: err.message || 'Unknown error' 
+      }).catch(logErr => console.error('Logging failed:', logErr))
+      
       toast.error(err.message || 'Transaction failed or rejected.')
     } finally {
       setIsUploading(false)
@@ -271,7 +302,7 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => 
                   {isUploading ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Waiting for Wallet...
+                      {uploadStatus === 'signing' ? 'Check Wallet...' : 'Securing on Stellar...'}
                     </>
                   ) : (
                     <>

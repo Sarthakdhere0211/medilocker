@@ -1,10 +1,21 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import * as Freighter from '@stellar/freighter-api'
+import * as FreighterApi from '@stellar/freighter-api'
 import { toast } from 'sonner'
 import * as StellarSdk from '@stellar/stellar-sdk'
+import { trackUserLogin } from '../lib/firebase'
 
 const HORIZON_URL = 'https://horizon-testnet.stellar.org'
+
+// Highly resilient way to get the correct methods from Freighter
+const getFreighterMethod = (name: string) => {
+  return (FreighterApi as any)[name] || (FreighterApi as any).default?.[name];
+};
+
+const freighterIsConnected = getFreighterMethod('isConnected');
+const freighterGetPublicKey = getFreighterMethod('getPublicKey');
+const freighterRequestAccess = getFreighterMethod('requestAccess');
+const freighterIsAllowed = getFreighterMethod('isAllowed');
 
 // Highly resilient way to get the correct classes from the SDK
 const getStellarClass = (path: string) => {
@@ -49,7 +60,10 @@ export const useWalletStore = create<WalletState>()(
         set({ isLoading: true, error: null })
         try {
           // 1. Detect if Freighter is installed
-          const freighterInstalled = await Freighter.isConnected()
+          if (!freighterIsConnected) {
+             throw new Error('Freighter API not properly loaded');
+          }
+          const freighterInstalled = await freighterIsConnected()
           if (!freighterInstalled) {
             toast.error('Freighter Wallet not detected. Please install the extension.')
             set({ isLoading: false, error: 'Freighter not installed' })
@@ -59,20 +73,24 @@ export const useWalletStore = create<WalletState>()(
           // 2. Check if already connected/unlocked
           let key = ''
           try {
-            key = await Freighter.getPublicKey()
+            if (freighterGetPublicKey) {
+                key = await freighterGetPublicKey()
+            }
           } catch (e) {
             // Not connected or locked, proceed to requestAccess
           }
 
           if (!key) {
             // 3. Request access (triggers popup)
-            // We await this fully to ensure we get the result after user interaction
-            key = await (Freighter as any).requestAccess()
+            if (freighterRequestAccess) {
+                key = await freighterRequestAccess()
+            }
           }
 
           if (key) {
             set({ publicKey: key, isConnected: true, isLoading: false, walletType: 'freighter' })
             toast.success('Successfully connected to Freighter!')
+            await trackUserLogin(key)
             await get().fetchBalance(key)
           } else {
             // If key is still empty after requestAccess, it means user rejected or closed popup
@@ -95,11 +113,13 @@ export const useWalletStore = create<WalletState>()(
 
       checkConnection: async () => {
         try {
-          const allowed = await Freighter.isAllowed()
+          if (!freighterIsAllowed || !freighterGetPublicKey) return;
+          const allowed = await freighterIsAllowed()
           if (allowed) {
-            const key = await Freighter.getPublicKey()
+            const key = await freighterGetPublicKey()
             if (key) {
               set({ publicKey: key, isConnected: true, walletType: 'freighter' })
+              await trackUserLogin(key)
               await get().fetchBalance(key)
             }
           }

@@ -1,10 +1,19 @@
-# MediLocker — Personal Health Record Vault
+# 🔐 MediLocker: Production-Ready Web3 Medical Records
 
+<<<<<<< HEAD
+=======
+MediLocker is a secure, trust-minimized medical record anchoring platform built for the **Stellar Network**. It empowers patients to maintain immutable proof of their medical history while keeping sensitive data off-chain.
+>>>>>>> 1e096f3 (Added demo video)
 
-**MediLocker** is a production-ready decentralized application (dApp) built on the **Stellar Network**. It empowers users to securely store, manage, and share their medical records with a premium SaaS experience, leveraging blockchain for immutable anchoring and ownership verification.
+## 🚀 Demo Day Features
 
----
+- **Hybrid Secure Anchoring**: Combines Stellar `manageData` (for immutability) with Firebase Firestore (for sub-second metadata indexing).
+- **SaaS-Style Analytics**: Real-time tracking of Total Users, DAU (Daily Active Users), and Network Transaction volume.
+- **Medical Timeline**: An advanced chronological view of patient history with direct links to blockchain proofs.
+- **Wallet-Native Auth**: Zero-password login using the Freighter Wallet extension.
+- **Client-Side Security**: Files are processed entirely in the browser; no PII (Personally Identifiable Information) ever touches the server.
 
+<<<<<<< HEAD
 ## 🌐 Live Demo
 
 🚀 **Live Application**  
@@ -187,80 +196,56 @@ https://stellar.expert/explorer/testnet/contract/CCNL4Y3WFX7YR6LICQOMPD3CL5KET63
 
 
 ---
+=======
+## 🏗️ Architecture & Data Flow
 
+### 1. Upload & Anchor (Patient Flow)
+1. **Selection**: User selects a PDF/Image and provides a title.
+2. **Hashing**: App generates a unique cryptographic hash (CID) of the file.
+3. **Stellar Anchoring**: A `manageData` transaction is sent to Stellar Testnet, mapping the `recordId` to the `fileHash`.
+4. **Firebase Indexing**: Metadata (title, type, size) is indexed in Firebase for fast retrieval, mapped to the user's wallet address.
+>>>>>>> 1e096f3 (Added demo video)
+
+### 2. Retrieval & Verification
+1. **Login**: User connects via Freighter.
+2. **Sync**: App fetches indexed metadata from Firebase and cross-references it with the Stellar ledger.
+3. **Integrity Check**: Only records with a matching on-chain anchor are displayed as "Verified".
 
 ## 🛠️ Tech Stack
-
-| Layer | Technology |
-| :--- | :--- |
-| **Frontend** | React 18, Vite, TypeScript |
-| **Styling** | Tailwind CSS |
-| **Blockchain** | Stellar SDK, Freighter API |
-| **State** | Zustand (with Persistence) |
-| **Icons** | Lucide React |
-| **Notifications** | Sonner |
-
----
+- **Frontend**: React 18, Vite, TypeScript, Tailwind CSS
+- **Blockchain**: Stellar SDK, Freighter API
+- **Backend/Analytics**: Firebase (Firestore, Analytics)
+- **Charts**: Recharts
+- **Icons/UI**: Lucide React, Framer Motion
 
 ## 🚦 Getting Started
 
 ### Prerequisites
-1. **Node.js**: Version 16.x or higher.
-2. **Freighter Wallet**: Install the [Freighter Extension](https://www.freighter.app/) in your browser.
-3. **Testnet XLM**: Fund your wallet via [Stellar Laboratory Friendbot](https://laboratory.stellar.org/#account-creator?network=testnet).
+- **Node.js**: v18+
+- **Freighter Wallet**: [Install Extension](https://www.freighter.app/)
+- **Firebase Project**: [Create here](https://console.firebase.google.com/)
 
-### Installation
-1. Clone the repository:
+### Setup
+1. **Clone & Install**:
    ```bash
    git clone https://github.com/your-repo/medilocker.git
    cd medilocker
-   ```
-
-2. Install dependencies:
-   ```bash
    npm install
    ```
-
-3. Start the development server:
+2. **Environment Variables**: Create a `.env` file:
+   ```env
+   VITE_FIREBASE_API_KEY=...
+   VITE_FIREBASE_AUTH_DOMAIN=...
+   VITE_FIREBASE_PROJECT_ID=...
+   ```
+3. **Run**:
    ```bash
    npm run dev
    ```
 
----
-
-## 🏗️ Architecture Overview
-
-MediLocker uses a **Reference-Based Blockchain Model**:
-1. **Upload**: User uploads a file; the app generates a unique CID (hash) and a secure local URL.
-2. **Anchor**: A Stellar `manageData` transaction is built containing only the `recordId`.
-3. **Verify**: Freighter signs the transaction, and it is submitted to the **Stellar Testnet**.
-4. **Retrieve**: Upon login, the app syncs with the blockchain to verify which record IDs are owned by the user before displaying them in the vault.
-
----
-
-## 🛡️ Security & Privacy
-- **User Ownership**: Your health data identity is your Stellar Public Key.
-- **Minimal Exposure**: No sensitive medical data is ever stored directly on the blockchain.
-- **Transparency**: Every record anchoring and sharing event is publicly verifiable on [Stellar Expert](https://stellar.expert).
-
----
-
-## User Onboarding & Feedback Collection
-
-We created a Google Form to onboard users and collect important details such as:
-
-Name
-Email
-Wallet Address
-Product Feedback (Rating + Comments)
-
-The responses were automatically recorded using Google Sheets and later exported into an Excel file for analysi
-
----
+## ⚠️ Limitations
+- **Storage**: Currently uses persistent data URLs for demo purposes. In a full production environment, this would be replaced with encrypted IPFS (Web3.storage) or Filecoin.
+- **Fees**: Users need Testnet XLM to anchor records (available via Friendbot).
 
 ## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-
-Built with ❤️ for the Stellar Ecosystem.
+MIT License. See [SECURITY.md](./SECURITY.md) for data handling policies.

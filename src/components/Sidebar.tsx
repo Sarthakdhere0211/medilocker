@@ -1,5 +1,5 @@
 import React from 'react'
-import { LayoutDashboard, FileText, Share2, Shield, Settings, HelpCircle, LogOut } from 'lucide-react'
+import { LayoutDashboard, FileText, Share2, Shield, Settings, HelpCircle, LogOut, Clock } from 'lucide-react'
 import { useWalletStore } from '../store/useWalletStore'
 
 interface SidebarProps {
@@ -13,6 +13,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
     { id: 'records', label: 'My Records', icon: <FileText className="w-5 h-5" /> },
+    { id: 'timeline', label: 'Timeline', icon: <Clock className="w-5 h-5" /> },
     { id: 'shared', label: 'Shared Access', icon: <Share2 className="w-5 h-5" /> },
     { id: 'security', label: 'Security', icon: <Shield className="w-5 h-5" /> },
   ]
