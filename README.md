@@ -5,6 +5,19 @@
 
 ---
 
+## 🌐 Live Demo
+
+🚀 **Live Application**  
+https://medilocker-fawn.vercel.app  
+
+🔍 Features you can test:
+- Wallet connection via Freighter  
+- Upload medical records  
+- Secure sharing between users  
+- Blockchain transaction verification
+
+---
+
 ## 🚀 Key Features
 
 ### 🔐 Real Wallet Integration
