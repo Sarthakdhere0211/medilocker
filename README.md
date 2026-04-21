@@ -21,13 +21,19 @@
 ## 🏗️ Architecture
 
 medilocker/
+│
 ├── contracts/ # Soroban smart contract (Rust)
 │ ├── src/
 │ │ └── lib.rs # Core MediLocker contract logic
 │ └── Cargo.toml
 │
-├── src/ # Frontend (React + TypeScript + Vite)
-│ ├── components/ # UI Components
+├── src/ # React + TypeScript + Vite
+│ │
+│ ├── pages/ # Application pages
+│ │ ├── LandingPage.tsx # Landing / marketing page
+│ │ └── Dashboard.tsx # User vault & medical records
+│ │
+│ ├── components/ # UI components
 │ │ ├── Navbar.tsx
 │ │ ├── Sidebar.tsx
 │ │ ├── UploadModal.tsx
@@ -35,13 +41,9 @@ medilocker/
 │ │ ├── ShareModal.tsx
 │ │ └── WalletModal.tsx
 │ │
-│ ├── pages/ # Application Pages
-│ │ ├── LandingPage.tsx # Entry / marketing page
-│ │ └── Dashboard.tsx # User vault & records
-│ │
 │ ├── lib/ # Core integrations
 │ │ ├── stellar.ts # Stellar SDK + contract interaction
-│ │ └── firebase.ts # Off-chain storage (metadata/files)
+│ │ └── firebase.ts # Off-chain storage
 │ │
 │ ├── store/ # Zustand global state
 │ ├── assets/ # Static assets
@@ -54,8 +56,8 @@ medilocker/
 │ └── feedback.md
 │
 ├── public/ # Static public files
-├── .env # Environment variables (contract ID, RPC)
-├── README.md
+├── .env # Environment variables
+└── README.md
 ---
 
 ## 🔗 Smart Contract
