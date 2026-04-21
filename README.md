@@ -21,42 +21,44 @@
 ## 🏗️ Architecture
 
 medilocker/
-├── contracts/                 # Soroban smart contract (Rust)
+│
+├── contracts/                     # Soroban smart contract (Rust)
 │   ├── src/
-│   │   └── lib.rs             # Core MediLocker contract logic
+│   │   └── lib.rs                 # Core MediLocker contract logic
 │   └── Cargo.toml
 │
-├── src/                       # Frontend (React + TypeScript + Vite)
-│   ├── components/            # UI Components
+├── src/                           # React + TypeScript + Vite
+│   │
+│   ├── pages/                     # Application pages
+│   │   ├── LandingPage.tsx        # Landing / marketing page
+│   │   └── Dashboard.tsx          # User vault & medical records
+│   │
+│   ├── components/                # UI components
 │   │   ├── Navbar.tsx
 │   │   ├── Sidebar.tsx
-│   │   ├── UploadModal.tsx
-│   │   ├── PreviewModal.tsx
-│   │   ├── ShareModal.tsx
-│   │   └── WalletModal.tsx
+│   │   ├── UploadModal.tsx        # Upload medical records
+│   │   ├── PreviewModal.tsx       # View documents
+│   │   ├── ShareModal.tsx         # Share records with users
+│   │   └── WalletModal.tsx        # Wallet connection UI
 │   │
-│   ├── pages/                 # Application Pages
-│   │   ├── LandingPage.tsx    # Entry / marketing page
-│   │   └── Dashboard.tsx      # User vault & records
+│   ├── lib/                       # Core integrations
+│   │   ├── stellar.ts             # Stellar SDK + contract interaction
+│   │   └── firebase.ts            # Off-chain storage (metadata/files)
 │   │
-│   ├── lib/                   # Core integrations
-│   │   ├── stellar.ts         # Stellar SDK + contract interaction
-│   │   └── firebase.ts        # Off-chain storage (metadata/files)
-│   │
-│   ├── store/                 # Zustand global state
-│   ├── assets/                # Static assets
+│   ├── store/                     # Zustand global state
+│   ├── assets/                    # Static assets
 │   ├── App.tsx
 │   ├── main.tsx
-│   └── index.css
+│   └── index.css                  # Styling
 │
-├── docs/                      # Documentation
+├── docs/                          # Documentation
 │   ├── architecture.md
 │   └── feedback.md
 │
-├── public/                    # Static public files
-├── .env                       # Environment variables (contract ID, RPC)
-├── README.md
-
+├── public/                        # Static public files
+├── .env                           # Environment variables (contract ID, RPC)
+├── package.json
+└── README.md
 ---
 
 ## 🔗 Smart Contract
