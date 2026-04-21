@@ -201,7 +201,7 @@ https://stellar.expert/explorer/testnet/contract/CCNL4Y3WFX7YR6LICQOMPD3CL5KET63
 
 
 ---
-=======
+
 ## 🏗️ Architecture & Data Flow
 
 ### 1. Upload & Anchor (Patient Flow)
