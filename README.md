@@ -1,9 +1,8 @@
 # 🔐 MediLocker: Production-Ready Web3 Medical Records
 
-<<<<<<< HEAD
 =======
 MediLocker is a secure, trust-minimized medical record anchoring platform built for the **Stellar Network**. It empowers patients to maintain immutable proof of their medical history while keeping sensitive data off-chain.
->>>>>>> 1e096f3 (Added demo video)
+
 
 ## 🚀 Demo Day Features
 
@@ -13,7 +12,8 @@ MediLocker is a secure, trust-minimized medical record anchoring platform built 
 - **Wallet-Native Auth**: Zero-password login using the Freighter Wallet extension.
 - **Client-Side Security**: Files are processed entirely in the browser; no PII (Personally Identifiable Information) ever touches the server.
 
-<<<<<<< HEAD
+---
+
 ## 🌐 Live Demo
 
 🚀 **Live Application**  
@@ -24,6 +24,12 @@ https://medilocker-fawn.vercel.app
 - Upload medical records  
 - Secure sharing between users  
 - Blockchain transaction verification
+
+---
+
+## 🎥 Demo Video
+
+⬇️ [Download Demo Video](./public/demo.mp4)
 
 ---
 
