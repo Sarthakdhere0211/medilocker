@@ -16,6 +16,113 @@
 - **Persistent Vault**: High-performance off-chain storage for record metadata and files, ensuring data survives sessions and refreshes.
 - **64-Byte Optimized**: Intelligent data restructuring to comply with Stellar protocol limits while maintaining rich record metadata.
 
+---
+
+## 🏗️ Architecture
+
+medilocker/
+├── contracts/                 # Soroban smart contract (Rust)
+│   ├── src/
+│   │   └── lib.rs             # Core MediLocker contract logic
+│   └── Cargo.toml
+│
+├── src/                       # Frontend (React + TypeScript + Vite)
+│   ├── components/            # UI Components
+│   │   ├── Navbar.tsx
+│   │   ├── Sidebar.tsx
+│   │   ├── UploadModal.tsx
+│   │   ├── PreviewModal.tsx
+│   │   ├── ShareModal.tsx
+│   │   └── WalletModal.tsx
+│   │
+│   ├── pages/                 # Application Pages
+│   │   ├── LandingPage.tsx    # Entry / marketing page
+│   │   └── Dashboard.tsx      # User vault & records
+│   │
+│   ├── lib/                   # Core integrations
+│   │   ├── stellar.ts         # Stellar SDK + contract interaction
+│   │   └── firebase.ts        # Off-chain storage (metadata/files)
+│   │
+│   ├── store/                 # Zustand global state
+│   ├── assets/                # Static assets
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+│
+├── docs/                      # Documentation
+│   ├── architecture.md
+│   └── feedback.md
+│
+├── public/                    # Static public files
+├── .env                       # Environment variables (contract ID, RPC)
+├── README.md
+
+---
+
+## 🔗 Smart Contract
+
+The MediLocker smart contract is built using Soroban (Rust) and manages secure storage, ownership, and sharing of medical record references on the Stellar blockchain.
+
+### 📦 Data Structures
+
+| Structure | Description |
+|----------|------------|
+| Record | Stores metadata of a medical record including ID, title, file hash, owner, and timestamp |
+| DataKey::Records | Maps a user address to their list of records |
+| DataKey::Shared | Stores access permissions for shared records |
+| DataKey::UserCount | Tracks total registered users |
+| DataKey::UserExists | Checks if a user is registered |
+
+---
+
+### ⚙️ Functions
+
+| Function | Description |
+|----------|-------------|
+| register_user | Registers a new user and increments total user count |
+| get_user_count | Returns total number of registered users |
+| upload_record | Stores a new medical record reference on-chain |
+| get_my_records | Retrieves all records owned by a user |
+| share_record | Grants access of a record to another wallet |
+| has_access | Checks if a user has access to a shared record |
+
+---
+
+### 🔐 Security Features
+
+- **Authentication Required**  
+  All sensitive operations require `require_auth()` to ensure only the owner can act.
+
+- **Ownership Verification**  
+  Records are tied to a specific wallet address.
+
+- **Access Control**  
+  Records can only be accessed if explicitly shared.
+
+- **No Sensitive Data On-Chain**  
+  Only file hashes (references) are stored, ensuring privacy.
+
+---
+
+### 🧠 Smart Contract Logic Flow
+
+1. User registers using their wallet address  
+2. User uploads a medical record → hash stored on-chain  
+3. Records are linked to the owner’s address  
+4. Owner can share access with another wallet  
+5. Access is verified using `has_access`  
+
+---
+
+### 📡 Deployment Details
+
+- Blockchain: Stellar Testnet  
+- Contract Type: Soroban Smart Contract  
+- Contract ID: CCNL4Y3WFX7YR6LICQOMPD3CL5KET63ZYMCVHDHE3FEB5RMEVNQD6B4Y  
+
+🔍 Explorer:  
+https://stellar.expert/explorer/testnet/contract/CCNL4Y3WFX7YR6LICQOMPD3CL5KET63ZYMCVHDHE3FEB5RMEVNQD6B4Y
+
 ### 📂 Medical Document Management
 - **Instant Preview**: View medical PDFs and images directly within the app using secure Blob gateways.
 - **On-Chain Sharing**: Grant viewing permissions to other wallet addresses through real signed Stellar transactions.
