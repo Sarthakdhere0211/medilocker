@@ -17,47 +17,49 @@
 - **64-Byte Optimized**: Intelligent data restructuring to comply with Stellar protocol limits while maintaining rich record metadata.
 
 ---
-
 ## 🏗️ Architecture
 
+```
 medilocker/
 │
-├── contracts/ # Soroban smart contract (Rust)
-│ ├── src/
-│ │ └── lib.rs # Core MediLocker contract logic
-│ └── Cargo.toml
+├── contracts/                     # Soroban smart contract (Rust)
+│   ├── src/
+│   │   └── lib.rs                 # Core MediLocker contract logic
+│   └── Cargo.toml
 │
-├── src/ # React + TypeScript + Vite
-│ │
-│ ├── pages/ # Application pages
-│ │ ├── LandingPage.tsx # Landing / marketing page
-│ │ └── Dashboard.tsx # User vault & medical records
-│ │
-│ ├── components/ # UI components
-│ │ ├── Navbar.tsx
-│ │ ├── Sidebar.tsx
-│ │ ├── UploadModal.tsx
-│ │ ├── PreviewModal.tsx
-│ │ ├── ShareModal.tsx
-│ │ └── WalletModal.tsx
-│ │
-│ ├── lib/ # Core integrations
-│ │ ├── stellar.ts # Stellar SDK + contract interaction
-│ │ └── firebase.ts # Off-chain storage
-│ │
-│ ├── store/ # Zustand global state
-│ ├── assets/ # Static assets
-│ ├── App.tsx
-│ ├── main.tsx
-│ └── index.css
+├── src/                           # React + TypeScript + Vite
+│   │
+│   ├── pages/                     # Application pages
+│   │   ├── LandingPage.tsx        # Landing / marketing page
+│   │   └── Dashboard.tsx          # User vault & medical records
+│   │
+│   ├── components/                # UI components
+│   │   ├── Navbar.tsx
+│   │   ├── Sidebar.tsx
+│   │   ├── UploadModal.tsx
+│   │   ├── PreviewModal.tsx
+│   │   ├── ShareModal.tsx
+│   │   └── WalletModal.tsx
+│   │
+│   ├── lib/                       # Core integrations
+│   │   ├── stellar.ts             # Stellar SDK + contract interaction
+│   │   └── firebase.ts            # Off-chain storage
+│   │
+│   ├── store/                     # Zustand global state
+│   ├── assets/                    # Static assets
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
 │
-├── docs/ # Documentation
-│ ├── architecture.md
-│ └── feedback.md
+├── docs/                          # Documentation
+│   ├── architecture.md
+│   └── feedback.md
 │
-├── public/ # Static public files
-├── .env # Environment variables
+├── public/                        # Static public files
+├── .env                           # Environment variables
 └── README.md
+```
+
 ---
 
 ## 🔗 Smart Contract
