@@ -7,13 +7,15 @@ MediLocker is a secure, trust-minimized medical record anchoring platform built 
 
 ---
 
-## 🚀 CI/CD Status
+## 🚀 CI/CD Pipeline
 
-This project uses GitHub Actions for Continuous Integration and Vercel for Continuous Deployment.
+This project implements a complete CI/CD pipeline using GitHub Actions and Vercel.
 
-- ✅ Automated builds on every push  
-- ✅ Successful production deployments  
-- ✅ End-to-end CI/CD pipeline functioning correctly
+- ✅ Continuous Integration: Automated builds and checks on every push using GitHub Actions  
+- 🚀 Continuous Deployment: Automatic production deployment via Vercel  
+- 🔄 Seamless pipeline ensuring code quality and fast delivery  
+
+> Note: Deployment is handled by Vercel’s native Git integration, so a separate GitHub Actions deployment workflow is not required.
 
 <img width="1456" height="343" alt="Screenshot 2026-04-22 192416" src="https://github.com/user-attachments/assets/18d6e408-f221-43af-9888-6838dbe434d6" />
 
