@@ -1,48 +1,37 @@
-# MediLocker Continuous Deployment
-# This workflow automates the production deployment to Vercel when changes are pushed to main.
-
 name: MediLocker CD
 
 on:
-  push:
-    branches: [ main, master ] # Triggers ONLY on push to main or master branches
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
 
 jobs:
   deploy:
     name: 🚀 CD: Deploy to Vercel
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     
     steps:
-      - name: 🔍 Checkout Repository
-        uses: actions/checkout@v4
-        # Fetches the source code
+      - uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: ⚡ Install Vercel CLI
-        run: npm install --global vercel@latest
-        # Installs the Vercel CLI globally inside the runner
+      - run: npm install -g vercel
 
-      - name: 📥 Pull Vercel Project Settings
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        # Pulls the latest project settings from Vercel using GitHub Secrets
 
-      - name: 🏗️ Build Project Artifacts (Vercel)
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        # Pre-builds the project artifacts on Vercel infrastructure
 
-      - name: 🚀 Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        # Deploys the pre-built artifacts to the production environment
