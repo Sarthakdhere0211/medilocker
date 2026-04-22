@@ -183,6 +183,51 @@ https://stellar.expert/explorer/testnet/contract/CCNL4Y3WFX7YR6LICQOMPD3CL5KET63
 
 ---
 
+## 📈 Metrics Dashboard
+
+The application includes a real-time analytics dashboard to monitor platform usage and activity.
+
+### 🔍 Key Metrics Tracked
+- Total Users (30+ active users)
+- Total Records Stored
+- Total Transactions
+- Daily Active Users (DAU)
+
+### ⚙️ Implementation
+- Metrics are tracked using Firebase Firestore
+- Real-time updates are fetched using `fetchAnalyticsData()`
+- Data is visualized using Recharts
+
+### 📸 Dashboard Preview
+
+<img width="1916" height="862" alt="Screenshot 2026-04-22 221938" src="https://github.com/user-attachments/assets/c0446caf-8b80-44f3-b179-65528920bea4" />
+
+---
+
+## 📊 Monitoring & Logging
+
+We implemented monitoring to track user activity and system events in real-time.
+
+### 🔍 What is Monitored
+- User wallet connection
+- Dashboard load events
+- Record upload actions
+- Approval actions
+
+### ⚙️ Implementation
+- Browser Console Logs (`console.log`)
+- Firebase Activity Logs (`activity_logs` collection)
+
+### 📸 Monitoring Screenshot
+
+<img width="1534" height="338" alt="image" src="https://github.com/user-attachments/assets/8fcf9bf0-cca1-4c8b-9ffc-80a7e2c07dd5" />
+
+---
+
+<img width="944" height="560" alt="image" src="https://github.com/user-attachments/assets/4431bfe9-ad7c-490c-b3c2-f299baa94899" />
+
+---
+
 🔗 Smart Contract Details
 Blockchain: Stellar Testnet
 Contract Type: Soroban Smart Contract
@@ -211,7 +256,8 @@ https://stellar.expert/explorer/testnet/contract/CCNL4Y3WFX7YR6LICQOMPD3CL5KET63
 
 ---
 
-<img width="1912" height="693" alt="Screenshot 2026-04-19 213938" src="https://github.com/user-attachments/assets/8f100580-441f-427d-a775-7e88163b702a" />
+<img width="1896" height="865" alt="image" src="https://github.com/user-attachments/assets/805d381f-a743-4f0f-9692-ea01503033ed" />
+
 
 ---
 
