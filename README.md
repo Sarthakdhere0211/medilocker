@@ -1,5 +1,8 @@
 # 🔐 MediLocker: Production-Ready Web3 Medical Records
 
+![CI](https://github.com/Sarthakdhere0211/medilocker/actions/workflows/ci.yml/badge.svg)
+![Deploy](https://github.com/Sarthakdhere0211/medilocker/actions/workflows/deploy.yml/badge.svg)
+
 MediLocker is a secure, trust-minimized medical record anchoring platform built for the **Stellar Network**. It empowers patients to maintain immutable proof of their medical history while keeping sensitive data off-chain.
 
 
