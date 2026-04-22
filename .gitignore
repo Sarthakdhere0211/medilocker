@@ -4,3 +4,7 @@ dist/
 .DS_Store
 .vscode/
 *.log
+.env.local
+.vercel
+vcp_*.txt
+node_modules
