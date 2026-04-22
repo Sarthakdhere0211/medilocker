@@ -228,6 +228,69 @@ We implemented monitoring to track user activity and system events in real-time.
 
 ---
 
+## 🛡️ Advanced Feature: Multi-Signature Approval
+
+### 📌 Overview
+We implemented a multi-signature approval mechanism to ensure that medical records are verified by multiple authorized users before being marked as trusted.
+
+---
+
+### ⚙️ How It Works
+
+1. A user uploads a medical record  
+2. The record is initialized with:
+   - `status: pending`
+   - `approvalCount: 0`
+   - `approvals: []`
+
+3. Authorized users can approve the record  
+4. Each approval:
+   - Adds the user's wallet address to the approvals array  
+   - Increments the approval count  
+
+5. When approvals ≥ 2:
+   - Record status becomes **Approved**
+
+---
+
+### 🔐 Security Rules
+ 
+- ❌ Duplicate approvals are prevented  
+- ✅ Only authorized users can approve  
+- ✅ Approval threshold ensures trust  
+
+---
+
+### 📊 States
+
+| State | Description |
+|------|------------|
+| Pending (0/2) | No approvals |
+| Pending (1/2) | Partially approved |
+| Approved (2/2) | Fully verified |
+
+---
+
+### 📸 Proof of Implementation
+
+<img width="1441" height="860" alt="Screenshot 2026-04-22 230147" src="https://github.com/user-attachments/assets/4bba8795-8744-4705-9b52-b8fe68dac733" />
+
+---
+
+### 🧠 Why This Matters
+ 
+- Ensures multi-party trust  
+- Simulates real-world healthcare verification systems  
+- Enhances security and reliability of medical data  
+
+---
+
+### 🚀 Future Scope
+
+- Role-based approvals (Doctor / Lab / Patient)  
+- Secure sharing system  
+- Notification system for pending approvals  
+
 🔗 Smart Contract Details
 Blockchain: Stellar Testnet
 Contract Type: Soroban Smart Contract
