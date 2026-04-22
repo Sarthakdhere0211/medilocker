@@ -5,6 +5,19 @@
 
 MediLocker is a secure, trust-minimized medical record anchoring platform built for the **Stellar Network**. It empowers patients to maintain immutable proof of their medical history while keeping sensitive data off-chain.
 
+---
+
+## 🚀 CI/CD Status
+
+This project uses GitHub Actions for Continuous Integration and Vercel for Continuous Deployment.
+
+- ✅ Automated builds on every push  
+- ✅ Successful production deployments  
+- ✅ End-to-end CI/CD pipeline functioning correctly
+
+<img width="1456" height="343" alt="Screenshot 2026-04-22 192416" src="https://github.com/user-attachments/assets/18d6e408-f221-43af-9888-6838dbe434d6" />
+
+---
 
 ## 🚀 Demo Day Features
 
