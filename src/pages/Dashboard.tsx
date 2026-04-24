@@ -148,9 +148,9 @@ export const Dashboard = () => {
       const updated = await approveRecord(record.id, publicKey, record.owner || publicKey);
       if (updated) {
         // Update local state
-        const updatedRecords = records.map(r => r.id === record.id ? { ...r, ...updated } : r);
+        const updatedRecords = records.map((r: RecordType) => r.id === record.id ? { ...r, ...updated } : r);
         setRecords(updatedRecords);
-        toast.success(updated.status === 'approved' ? 'Record fully approved!' : 'Approval recorded', { id: loadingToast });
+        toast.success((updated.status || "pending") === 'approved' ? 'Record fully approved!' : 'Approval recorded', { id: loadingToast });
       }
     } catch (err: any) {
       toast.error(err.message || 'Failed to approve record', { id: loadingToast });
@@ -181,7 +181,7 @@ export const Dashboard = () => {
     return (
       <div className="max-w-4xl mx-auto py-10">
         <div className="relative border-l-2 border-brand-100 ml-4 space-y-12">
-          {sortedRecords.map((record, index) => (
+          {sortedRecords.map((record: RecordType, index: number) => (
             <div key={record.id} className="relative pl-10">
               {/* Timeline Dot */}
               <div className="absolute -left-[11px] top-0 w-5 h-5 bg-white border-4 border-brand-600 rounded-full z-10 shadow-sm" />
@@ -236,7 +236,7 @@ export const Dashboard = () => {
                     </div>
                     
                     {/* NEW: Approval Status in Timeline */}
-                    {record.status === 'approved' ? (
+                    {(record.status || "pending") === 'approved' ? (
                       <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500 text-white rounded-lg shadow-sm shadow-emerald-200">
                         <ShieldCheck className="w-3.5 h-3.5" />
                         <span className="text-[10px] font-bold uppercase tracking-tight">Approved</span>
@@ -249,14 +249,16 @@ export const Dashboard = () => {
                     )}
                   </div>
                   
-                  <a 
-                    href={`https://stellar.expert/explorer/testnet/tx/${record.txHash}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[10px] font-bold text-surface-400 hover:text-brand-600 transition-colors flex items-center gap-1 uppercase tracking-wider"
-                  >
-                    View TX Proof <ExternalLink className="w-3 h-3" />
-                  </a>
+                  {record.txHash && (
+                    <a 
+                      href={`https://stellar.expert/explorer/testnet/tx/${record.txHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] font-bold text-surface-400 hover:text-brand-600 transition-colors flex items-center gap-1 uppercase tracking-wider"
+                    >
+                      View TX Proof <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
                 </div>
               </motion.div>
             </div>
@@ -560,7 +562,7 @@ export const Dashboard = () => {
                   ) : (
                     <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" : "space-y-4"}>
                       <AnimatePresence mode="popLayout">
-                        {filteredRecords.map((record) => (
+                        {filteredRecords.map((record: RecordType) => (
                           <motion.div
                             key={record.id}
                             layout
@@ -579,7 +581,7 @@ export const Dashboard = () => {
                                 
                                 {/* Multi-Sig Badge */}
                                 <div className="flex items-center gap-2 mb-3">
-                                  {record.status === 'approved' ? (
+                                  {(record.status || "pending") === 'approved' ? (
                                     <motion.span 
                                       initial={{ scale: 0.8, opacity: 0 }}
                                       animate={{ scale: 1, opacity: 1 }}
@@ -634,7 +636,7 @@ export const Dashboard = () => {
                             </div>
 
                             <div className={viewMode === 'grid' ? "mt-8 pt-6 border-t border-surface-50 flex items-center gap-3" : "flex items-center gap-3"}>
-                              {record.status === 'approved' ? (
+                              {(record.status || "pending") === 'approved' ? (
                                 <div className="flex-1 py-2.5 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-xl flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest">
                                   <ShieldCheck className="w-4 h-4" /> Fully Verified
                                 </div>
