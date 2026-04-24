@@ -1,11 +1,12 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Download, Share2, Shield, Calendar, HardDrive, FileText, ExternalLink } from 'lucide-react'
+import { X, Download, Shield, Calendar, HardDrive, FileText, ExternalLink } from 'lucide-react'
+import { RecordType } from '../store/useRecordStore'
 
 interface PreviewModalProps {
   isOpen: boolean
   onClose: () => void
-  record: any
+  record: RecordType | null
 }
 
 export const PreviewModal: React.FC<PreviewModalProps> = ({ isOpen, onClose, record }) => {

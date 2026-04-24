@@ -21,7 +21,7 @@ import {
   ArrowRight
 } from 'lucide-react'
 import { useWalletStore } from '../store/useWalletStore'
-import { useRecordStore } from '../store/useRecordStore'
+import { useRecordStore, RecordType } from '../store/useRecordStore'
 import { fetchOnChainRecordIds } from '../lib/stellar'
 import { UploadModal } from '../components/UploadModal'
 import { ShareModal } from '../components/ShareModal'
@@ -37,7 +37,7 @@ export const Dashboard = () => {
   const [isUploadOpen, setIsUploadOpen] = useState(false)
   const [isShareOpen, setIsShareOpen] = useState(false)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
-  const [selectedRecord, setSelectedRecord] = useState<any>(null)
+  const [selectedRecord, setSelectedRecord] = useState<RecordType | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -72,6 +72,15 @@ export const Dashboard = () => {
     }
   }
 
+  const loadActivity = async () => {
+    try {
+      const logs = await fetchRecentActivity()
+      setActivityLogs(logs)
+    } catch (error) {
+      console.error('Failed to load activity:', error)
+    }
+  }
+
   useEffect(() => {
     loadMetrics()
     const interval = setInterval(loadMetrics, 30000) // Refresh metrics every 30s
@@ -91,7 +100,7 @@ export const Dashboard = () => {
         const indexedRecords = await fetchIndexedRecords(publicKey)
         
         // Filter and merge: Only keep records that are anchored on-chain
-        const syncedRecords = indexedRecords.filter((r: any) => onChainIds.includes(r.id))
+        const syncedRecords = (indexedRecords as RecordType[]).filter((r: RecordType) => onChainIds.includes(r.id))
         
         setRecords(syncedRecords)
 
@@ -126,12 +135,12 @@ export const Dashboard = () => {
 
   const totalSharedCount = myRecords.reduce((acc, r) => acc + (r.sharedWith?.length || 0), 0)
 
-  const handleShare = (record: any) => {
+  const handleShare = (record: RecordType) => {
     setSelectedRecord(record)
     setIsShareOpen(true)
   }
 
-  const handleApprove = async (record: any) => {
+  const handleApprove = async (record: RecordType) => {
     if (!publicKey) return;
     
     const loadingToast = toast.loading('Processing approval...');
@@ -148,7 +157,7 @@ export const Dashboard = () => {
     }
   };
 
-  const handleView = (record: any) => {
+  const handleView = (record: RecordType) => {
     setSelectedRecord(record)
     setIsPreviewOpen(true)
   }
@@ -584,16 +593,16 @@ export const Dashboard = () => {
                                     </span>
                                   )}
                                   
-                                  {record.approvals?.length > 0 && (
+                                  {(record.approvals?.length ?? 0) > 0 && (
                                     <div className="flex -space-x-2">
-                                      {record.approvals.slice(0, 3).map((addr: string, i: number) => (
+                                      {record.approvals?.slice(0, 3).map((addr: string, i: number) => (
                                         <div key={i} className="w-5 h-5 rounded-full bg-brand-100 border-2 border-white flex items-center justify-center text-[8px] font-bold text-brand-600" title={addr}>
                                           {addr.charAt(1)}
                                         </div>
                                       ))}
-                                      {record.approvals.length > 3 && (
+                                      {(record.approvals?.length ?? 0) > 3 && (
                                         <div className="w-5 h-5 rounded-full bg-surface-100 border-2 border-white flex items-center justify-center text-[8px] font-bold text-surface-400">
-                                          +{record.approvals.length - 3}
+                                          +{(record.approvals?.length ?? 0) - 3}
                                         </div>
                                       )}
                                     </div>
@@ -632,14 +641,14 @@ export const Dashboard = () => {
                               ) : (
                                 <button 
                                   onClick={() => handleApprove(record)}
-                                  disabled={(record.approvals || []).includes(publicKey)}
+                                  disabled={!publicKey || (record.approvals || []).includes(publicKey)}
                                   className={`flex-1 py-2.5 text-[10px] tracking-widest uppercase font-bold rounded-xl transition-all border ${
-                                    (record.approvals || []).includes(publicKey) 
+                                    publicKey && (record.approvals || []).includes(publicKey) 
                                       ? 'bg-surface-50 text-surface-400 border-surface-100 cursor-not-allowed' 
                                       : 'bg-amber-50 text-amber-600 border-amber-100 hover:bg-amber-100'
                                   }`}
                                 >
-                                  {(record.approvals || []).includes(publicKey) ? 'Approved' : 'Approve'}
+                                  {publicKey && (record.approvals || []).includes(publicKey) ? 'Approved' : 'Approve'}
                                 </button>
                               )}
                               

@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, arrayUnion, collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { RecordType } from '../store/useRecordStore';
 
 // Use environment variables for production security
 const firebaseConfig = {
@@ -244,7 +245,7 @@ export async function fetchAnalyticsData() {
 /**
  * Indexes a new record and updates global/user metrics
  */
-export async function indexRecord(publicKey: string, recordData: any) {
+export async function indexRecord(publicKey: string, recordData: RecordType) {
   if (isDemoConfig) {
     const stats = JSON.parse(localStorage.getItem('medilocker_demo_stats') || '{"totalUsers":0,"totalRecords":0,"totalTransactions":0}');
     stats.totalRecords += 1;
@@ -276,15 +277,17 @@ export async function indexRecord(publicKey: string, recordData: any) {
     await updateDoc(userRef, { recordCount: increment(1) });
 
     // 4. Record the specific transaction
-    const txRef = doc(db, 'transactions', recordData.txHash);
-    await setDoc(txRef, {
-      type: 'RECORD_ANCHOR',
-      publicKey,
-      recordId: recordData.id,
-      hash: recordData.txHash,
-      timestamp: serverTimestamp(),
-      status: 'SUCCESS'
-    });
+    if (recordData.txHash) {
+      const txRef = doc(db, 'transactions', recordData.txHash);
+      await setDoc(txRef, {
+        type: 'RECORD_ANCHOR',
+        publicKey,
+        recordId: recordData.id,
+        hash: recordData.txHash,
+        timestamp: serverTimestamp(),
+        status: 'SUCCESS'
+      });
+    }
 
     // 5. Update global metrics
     const globalRef = doc(db, 'metrics', 'global');
@@ -304,14 +307,14 @@ export async function indexRecord(publicKey: string, recordData: any) {
 /**
  * Approves a record in a Multi-Signature flow
  */
-export async function approveRecord(recordId: string, approverPublicKey: string, ownerPublicKey: string) {
+export async function approveRecord(recordId: string, approverPublicKey: string, ownerPublicKey: string): Promise<RecordType | null> {
   if (isDemoConfig) {
     // Local demo logic
     const stored = localStorage.getItem('medilocker-vault-offchain');
     if (stored) {
       const parsed = JSON.parse(stored);
       const records = parsed.state.records;
-      const index = records.findIndex((r: any) => r.id === recordId);
+      const index = records.findIndex((r: RecordType) => r.id === recordId);
       if (index !== -1) {
         const record = records[index];
         // Defensive initialization
@@ -338,7 +341,7 @@ export async function approveRecord(recordId: string, approverPublicKey: string,
     const snap = await getDoc(globalRecordRef);
     if (!snap.exists()) throw new Error('Record not found');
     
-    const recordData = snap.data();
+    const recordData = snap.data() as RecordType;
     const existingApprovals = recordData.approvals || [];
     
     if (existingApprovals.includes(approverPublicKey)) {
@@ -365,7 +368,7 @@ export async function approveRecord(recordId: string, approverPublicKey: string,
       approvals: [...existingApprovals, approverPublicKey], 
       approvalCount: newApprovalCount, 
       status: newStatus 
-    };
+    } as RecordType;
   } catch (err) {
     console.error('Firebase approveRecord error:', err);
     throw err;
@@ -424,14 +427,14 @@ export async function fetchGlobalMetrics() {
 /**
  * Fetches indexed records for a user (fast retrieval)
  */
-export async function fetchIndexedRecords(publicKey: string) {
+export async function fetchIndexedRecords(publicKey: string): Promise<RecordType[]> {
   if (isDemoConfig) {
     // Return records from localStorage if in demo mode
     const stored = localStorage.getItem('medilocker-vault-offchain');
     if (stored) {
         try {
             const parsed = JSON.parse(stored);
-            return parsed.state?.records?.filter((r: any) => r.owner === publicKey) || [];
+            return (parsed.state?.records?.filter((r: RecordType) => r.owner === publicKey) || []) as RecordType[];
         } catch (e) {
             return [];
         }
@@ -442,7 +445,7 @@ export async function fetchIndexedRecords(publicKey: string) {
     const recordsRef = collection(db, 'users', publicKey, 'records');
     const q = query(recordsRef, orderBy('timestamp', 'desc'));
     const snap = await getDocs(q);
-    return snap.docs.map(doc => doc.data());
+    return snap.docs.map(doc => doc.data() as RecordType);
   } catch (err) {
     console.error('Firebase fetchIndexedRecords error:', err);
     return [];

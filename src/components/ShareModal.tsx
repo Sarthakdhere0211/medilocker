@@ -3,13 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Share2, Wallet, CheckCircle2, Loader2, ArrowRight, ShieldCheck, AlertCircle, ExternalLink } from 'lucide-react'
 import { shareRecordOnChain } from '../lib/stellar'
 import { useWalletStore } from '../store/useWalletStore'
-import { useRecordStore } from '../store/useRecordStore'
+import { useRecordStore, RecordType } from '../store/useRecordStore'
 import { toast } from 'sonner'
 
 interface ShareModalProps {
   isOpen: boolean
   onClose: () => void
-  record: any
+  record: RecordType | null
 }
 
 export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, record }) => {
@@ -22,7 +22,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, record 
 
   const handleShare = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!recipientAddress || recipientAddress.length < 56) {
+    if (!recipientAddress || recipientAddress.length < 56 || !record) {
         toast.error('Please enter a valid Stellar wallet address')
         return
     }

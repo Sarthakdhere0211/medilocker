@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export interface Record {
+export interface RecordType {
   id: string
   title: string
   fileHash: string
@@ -12,17 +12,21 @@ export interface Record {
   size: string
   txHash?: string // Added to store transaction hash
   sharedWith?: string[]
+  // Multi-signature fields (Optional for legacy support)
+  approvals?: string[]
+  approvalCount?: number
+  status?: 'pending' | 'approved'
 }
 
 interface RecordState {
-  records: Record[]
-  sharedRecords: Record[]
+  records: RecordType[]
+  sharedRecords: RecordType[]
   isLoading: boolean
-  addRecord: (record: Record) => void
-  setRecords: (records: Record[]) => void
+  addRecord: (record: RecordType) => void
+  setRecords: (records: RecordType[]) => void
   setLoading: (loading: boolean) => void
   shareRecord: (recordId: string, address: string) => void
-  addSharedRecord: (record: Record) => void
+  addSharedRecord: (record: RecordType) => void
 }
 
 // Hybrid Storage: Use Zustand Persist for off-chain data + Blockchain for IDs
