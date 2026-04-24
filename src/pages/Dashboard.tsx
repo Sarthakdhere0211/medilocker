@@ -126,14 +126,14 @@ export const Dashboard = () => {
   }, [publicKey, setRecords, setLoading])
 
   // Wallet-based filtering: only show records belonging to the current public key
-  const myRecords = records.filter(r => r.owner === publicKey)
+  const myRecords = records.filter((r: RecordType) => r.owner === publicKey)
   const displayRecords = activeTab === 'shared' ? sharedRecords : myRecords
 
-  const filteredRecords = displayRecords.filter(r => 
+  const filteredRecords = displayRecords.filter((r: RecordType) => 
     r.title.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const totalSharedCount = myRecords.reduce((acc, r) => acc + (r.sharedWith?.length || 0), 0)
+  const totalSharedCount = myRecords.reduce((acc: number, r: RecordType) => acc + (r.sharedWith?.length || 0), 0)
 
   const handleShare = (record: RecordType) => {
     setSelectedRecord(record)
@@ -166,7 +166,7 @@ export const Dashboard = () => {
 
   // --- Timeline Feature View ---
   const renderTimeline = () => {
-    const sortedRecords = [...myRecords].sort((a, b) => b.timestamp - a.timestamp);
+    const sortedRecords = [...myRecords].sort((a: RecordType, b: RecordType) => b.timestamp - a.timestamp);
     
     if (sortedRecords.length === 0) {
       return (
@@ -595,16 +595,16 @@ export const Dashboard = () => {
                                     </span>
                                   )}
                                   
-                                  {(record.approvals?.length ?? 0) > 0 && (
+                                  {(record.approvals || []).length > 0 && (
                                     <div className="flex -space-x-2">
-                                      {record.approvals?.slice(0, 3).map((addr: string, i: number) => (
+                                      {(record.approvals || []).slice(0, 3).map((addr: string, i: number) => (
                                         <div key={i} className="w-5 h-5 rounded-full bg-brand-100 border-2 border-white flex items-center justify-center text-[8px] font-bold text-brand-600" title={addr}>
                                           {addr.charAt(1)}
                                         </div>
                                       ))}
-                                      {(record.approvals?.length ?? 0) > 3 && (
+                                      {(record.approvals || []).length > 3 && (
                                         <div className="w-5 h-5 rounded-full bg-surface-100 border-2 border-white flex items-center justify-center text-[8px] font-bold text-surface-400">
-                                          +{(record.approvals?.length ?? 0) - 3}
+                                          +{(record.approvals || []).length - 3}
                                         </div>
                                       )}
                                     </div>
