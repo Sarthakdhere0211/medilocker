@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 // Check if we are using demo keys
-const isDemoConfig = firebaseConfig.apiKey.includes('DEMO');
+export const isDemoConfig = firebaseConfig.apiKey.includes('DEMO');
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
@@ -34,7 +34,7 @@ export async function seedProductionData() {
   };
 
   if (isDemoConfig) {
-    console.log('[Seed] Seeding DEMO data to localStorage...');
+    console.log('[Seed] Seeding 35+ users for production simulation...');
     localStorage.setItem('medilocker_demo_stats', JSON.stringify(seedStats));
     
     // Seed some logs for demo mode
@@ -45,7 +45,6 @@ export async function seedProductionData() {
     ];
     localStorage.setItem('medilocker_demo_logs', JSON.stringify(demoLogs));
     
-    console.log('[Seed] Demo simulation complete! Refresh the page to see results.');
     return true;
   }
 
@@ -256,17 +255,20 @@ export async function indexRecord(publicKey: string, recordData: any) {
   try {
     // 1. Store record metadata in user's subcollection for fast retrieval
     const recordRef = doc(db, 'users', publicKey, 'records', recordData.id);
-    await setDoc(recordRef, {
+    const enrichedRecord = {
       ...recordData,
+      approvals: [],
+      approvalCount: 0,
+      status: 'pending',
       indexedAt: serverTimestamp()
-    });
+    };
+    await setDoc(recordRef, enrichedRecord);
 
-    // 2. Create a top-level record entry for global tracking if needed (optional)
+    // 2. Create a top-level record entry for global tracking and multi-sig access
     const globalRecordRef = doc(db, 'records', recordData.id);
     await setDoc(globalRecordRef, {
-      ...recordData,
-      owner: publicKey,
-      indexedAt: serverTimestamp()
+      ...enrichedRecord,
+      owner: publicKey
     });
 
     // 3. Update user's record count
@@ -295,6 +297,77 @@ export async function indexRecord(publicKey: string, recordData: any) {
     await logActivity(publicKey, 'UPLOAD_SUCCESS', { recordId: recordData.id });
   } catch (err) {
     console.error('Firebase indexRecord error:', err);
+    throw err;
+  }
+}
+
+/**
+ * Approves a record in a Multi-Signature flow
+ */
+export async function approveRecord(recordId: string, approverPublicKey: string, ownerPublicKey: string) {
+  if (isDemoConfig) {
+    // Local demo logic
+    const stored = localStorage.getItem('medilocker-vault-offchain');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      const records = parsed.state.records;
+      const index = records.findIndex((r: any) => r.id === recordId);
+      if (index !== -1) {
+        const record = records[index];
+        // Defensive initialization
+        if (!record.approvals) record.approvals = [];
+        if (record.approvalCount === undefined) record.approvalCount = 0;
+        if (!record.status) record.status = 'pending';
+
+        if (!record.approvals.includes(approverPublicKey)) {
+          record.approvals.push(approverPublicKey);
+          record.approvalCount += 1;
+          if (record.approvalCount >= 2) record.status = 'approved';
+          localStorage.setItem('medilocker-vault-offchain', JSON.stringify(parsed));
+          return record;
+        }
+      }
+    }
+    return null;
+  }
+
+  try {
+    const globalRecordRef = doc(db, 'records', recordId);
+    const userRecordRef = doc(db, 'users', ownerPublicKey, 'records', recordId);
+    
+    const snap = await getDoc(globalRecordRef);
+    if (!snap.exists()) throw new Error('Record not found');
+    
+    const recordData = snap.data();
+    const existingApprovals = recordData.approvals || [];
+    
+    if (existingApprovals.includes(approverPublicKey)) {
+      throw new Error('User has already approved this record');
+    }
+
+    const newApprovalCount = (recordData.approvalCount || 0) + 1;
+    const newStatus = newApprovalCount >= 2 ? 'approved' : 'pending';
+
+    const updates = {
+      approvals: arrayUnion(approverPublicKey),
+      approvalCount: increment(1),
+      status: newStatus
+    };
+
+    // Atomic-like update on both locations
+    await updateDoc(globalRecordRef, updates);
+    await updateDoc(userRecordRef, updates);
+
+    await logActivity(approverPublicKey, 'RECORD_APPROVE', { recordId, newStatus });
+    
+    return { 
+      ...recordData, 
+      approvals: [...existingApprovals, approverPublicKey], 
+      approvalCount: newApprovalCount, 
+      status: newStatus 
+    };
+  } catch (err) {
+    console.error('Firebase approveRecord error:', err);
     throw err;
   }
 }

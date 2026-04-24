@@ -27,8 +27,8 @@ import { UploadModal } from '../components/UploadModal'
 import { ShareModal } from '../components/ShareModal'
 import { PreviewModal } from '../components/PreviewModal'
 import { Sidebar } from '../components/Sidebar'
+import { fetchAnalyticsData, fetchRecentActivity, seedProductionData, fetchIndexedRecords, approveRecord, isDemoConfig } from '../lib/firebase'
 import { toast } from 'sonner'
-import { fetchAnalyticsData, fetchRecentActivity, seedProductionData, fetchIndexedRecords } from '../lib/firebase'
 import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 export const Dashboard = () => {
@@ -55,9 +55,9 @@ export const Dashboard = () => {
 
       let analytics = await fetchAnalyticsData()
       
-      // Auto-seed if in demo mode and data is missing
-      if (analytics.totalUsers < 2 && import.meta.env.VITE_FIREBASE_API_KEY?.includes('DEMO')) {
-        console.log('[Dashboard] Auto-seeding production simulation data...')
+      // Auto-seed if in demo mode and users are less than 30 (to show 30+ users)
+      if (isDemoConfig && analytics.totalUsers < 30) {
+        console.log('[Dashboard] Auto-seeding production simulation data (30+ users)...')
         await seedProductionData()
         analytics = await fetchAnalyticsData()
       }
@@ -131,6 +131,23 @@ export const Dashboard = () => {
     setIsShareOpen(true)
   }
 
+  const handleApprove = async (record: any) => {
+    if (!publicKey) return;
+    
+    const loadingToast = toast.loading('Processing approval...');
+    try {
+      const updated = await approveRecord(record.id, publicKey, record.owner || publicKey);
+      if (updated) {
+        // Update local state
+        const updatedRecords = records.map(r => r.id === record.id ? { ...r, ...updated } : r);
+        setRecords(updatedRecords);
+        toast.success(updated.status === 'approved' ? 'Record fully approved!' : 'Approval recorded', { id: loadingToast });
+      }
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to approve record', { id: loadingToast });
+    }
+  };
+
   const handleView = (record: any) => {
     setSelectedRecord(record)
     setIsPreviewOpen(true)
@@ -202,11 +219,27 @@ export const Dashboard = () => {
                 </div>
 
                 {/* Blockchain Proof Badge */}
-                <div className="mt-6 pt-6 border-t border-surface-50 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                    <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Anchored on Stellar</p>
+                <div className="mt-6 pt-6 border-t border-surface-50 flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                      <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Anchored</p>
+                    </div>
+                    
+                    {/* NEW: Approval Status in Timeline */}
+                    {record.status === 'approved' ? (
+                      <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500 text-white rounded-lg shadow-sm shadow-emerald-200">
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                        <span className="text-[10px] font-bold uppercase tracking-tight">Approved</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-50 text-amber-600 rounded-md border border-amber-100">
+                        <Clock className="w-3 h-3" />
+                        <span className="text-[9px] font-bold uppercase tracking-tight">Pending</span>
+                      </div>
+                    )}
                   </div>
+                  
                   <a 
                     href={`https://stellar.expert/explorer/testnet/tx/${record.txHash}`}
                     target="_blank"
@@ -364,52 +397,48 @@ export const Dashboard = () => {
                         Live Data
                       </div>
                     </div>
-                   <div className="w-full h-[300px]">
- <ResponsiveContainer width="100%" height="100%">
-    <AreaChart data={metrics.dau}>
-      <defs>
-        <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#0D9488" stopOpacity={0.3}/>
-          <stop offset="95%" stopColor="#0D9488" stopOpacity={0}/>
-        </linearGradient>
-      </defs>
-
-      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
-
-      <XAxis 
-        dataKey="date" 
-        axisLine={false} 
-        tickLine={false} 
-        tick={{fill: '#94A3B8', fontSize: 12}}
-        dy={10}
-      />
-
-      <YAxis 
-        axisLine={false} 
-        tickLine={false} 
-        tick={{fill: '#94A3B8', fontSize: 12}}
-      />
-
-      <Tooltip 
-        contentStyle={{ 
-          backgroundColor: '#fff', 
-          borderRadius: '16px', 
-          border: '1px solid #F1F5F9',
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-        }}
-      />
-
-      <Area 
-        type="monotone" 
-        dataKey="users" 
-        stroke="#0D9488" 
-        strokeWidth={3}
-        fillOpacity={1} 
-        fill="url(#colorUsers)" 
-      />
-    </AreaChart>
-  </ResponsiveContainer>
-</div>
+                    <div className="w-full h-[300px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={metrics.dau}>
+                          <defs>
+                            <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#0D9488" stopOpacity={0.3}/>
+                              <stop offset="95%" stopColor="#0D9488" stopOpacity={0}/>
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
+                          <XAxis 
+                            dataKey="date" 
+                            axisLine={false} 
+                            tickLine={false} 
+                            tick={{fill: '#94A3B8', fontSize: 12}}
+                            dy={10}
+                          />
+                          <YAxis 
+                            axisLine={false} 
+                            tickLine={false} 
+                            tick={{fill: '#94A3B8', fontSize: 12}}
+                          />
+                          <Tooltip 
+                            contentStyle={{ 
+                              backgroundColor: '#fff', 
+                              borderRadius: '16px', 
+                              border: '1px solid #F1F5F9',
+                              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                            }}
+                          />
+                          <Area 
+                            type="monotone" 
+                            dataKey="users" 
+                            stroke="#0D9488" 
+                            strokeWidth={3}
+                            fillOpacity={1} 
+                            fill="url(#colorUsers)" 
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
 
                   {/* Activity Log */}
                   <div className="bg-white p-8 rounded-[2rem] border border-surface-100 shadow-soft flex flex-col">
@@ -538,6 +567,39 @@ export const Dashboard = () => {
                               
                               <div>
                                 <h3 className="font-bold text-surface-900 mb-1.5 group-hover:text-brand-600 transition-colors truncate pr-2">{record.title}</h3>
+                                
+                                {/* Multi-Sig Badge */}
+                                <div className="flex items-center gap-2 mb-3">
+                                  {record.status === 'approved' ? (
+                                    <motion.span 
+                                      initial={{ scale: 0.8, opacity: 0 }}
+                                      animate={{ scale: 1, opacity: 1 }}
+                                      className="px-2.5 py-1 bg-emerald-500 text-white text-[10px] font-bold rounded-lg flex items-center gap-1.5 shadow-sm shadow-emerald-200"
+                                    >
+                                      <ShieldCheck className="w-3.5 h-3.5" /> Approved
+                                    </motion.span>
+                                  ) : (
+                                    <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-md flex items-center gap-1 border border-amber-100">
+                                      <Clock className="w-3 h-3" /> Pending ({record.approvalCount || 0}/2)
+                                    </span>
+                                  )}
+                                  
+                                  {record.approvals?.length > 0 && (
+                                    <div className="flex -space-x-2">
+                                      {record.approvals.slice(0, 3).map((addr: string, i: number) => (
+                                        <div key={i} className="w-5 h-5 rounded-full bg-brand-100 border-2 border-white flex items-center justify-center text-[8px] font-bold text-brand-600" title={addr}>
+                                          {addr.charAt(1)}
+                                        </div>
+                                      ))}
+                                      {record.approvals.length > 3 && (
+                                        <div className="w-5 h-5 rounded-full bg-surface-100 border-2 border-white flex items-center justify-center text-[8px] font-bold text-surface-400">
+                                          +{record.approvals.length - 3}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+
                                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] text-surface-400 font-bold uppercase tracking-widest">
                                   <span className="flex items-center gap-1.5">
                                     <Calendar className="w-3 h-3" />
@@ -563,6 +625,24 @@ export const Dashboard = () => {
                             </div>
 
                             <div className={viewMode === 'grid' ? "mt-8 pt-6 border-t border-surface-50 flex items-center gap-3" : "flex items-center gap-3"}>
+                              {record.status === 'approved' ? (
+                                <div className="flex-1 py-2.5 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-xl flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest">
+                                  <ShieldCheck className="w-4 h-4" /> Fully Verified
+                                </div>
+                              ) : (
+                                <button 
+                                  onClick={() => handleApprove(record)}
+                                  disabled={(record.approvals || []).includes(publicKey)}
+                                  className={`flex-1 py-2.5 text-[10px] tracking-widest uppercase font-bold rounded-xl transition-all border ${
+                                    (record.approvals || []).includes(publicKey) 
+                                      ? 'bg-surface-50 text-surface-400 border-surface-100 cursor-not-allowed' 
+                                      : 'bg-amber-50 text-amber-600 border-amber-100 hover:bg-amber-100'
+                                  }`}
+                                >
+                                  {(record.approvals || []).includes(publicKey) ? 'Approved' : 'Approve'}
+                                </button>
+                              )}
+                              
                               <button 
                                 onClick={() => handleView(record)}
                                 className="btn-secondary flex-1 py-2.5 text-[10px] tracking-widest uppercase font-bold"
@@ -570,23 +650,23 @@ export const Dashboard = () => {
                                 View
                               </button>
                               {activeTab !== 'shared' && (
-                                  <button 
+                                <button 
                                   onClick={() => handleShare(record)}
                                   className="btn-secondary p-2.5 text-brand-600 hover:bg-brand-50 border-brand-100"
-                                  >
+                                >
                                   <Share2 className="w-4 h-4" />
-                                  </button>
+                                </button>
                               )}
                               {record.txHash && (
-                                  <a 
-                                      href={`https://stellar.expert/explorer/testnet/tx/${record.txHash}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="p-2.5 text-surface-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-all border border-transparent hover:border-brand-100"
-                                      title="View on Stellar Expert"
-                                  >
-                                      <ExternalLink className="w-4 h-4" />
-                                  </a>
+                                <a 
+                                  href={`https://stellar.expert/explorer/testnet/tx/${record.txHash}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="p-2.5 text-surface-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-all border border-transparent hover:border-brand-100"
+                                  title="View on Stellar Expert"
+                                >
+                                  <ExternalLink className="w-4 h-4" />
+                                </a>
                               )}
                             </div>
                           </motion.div>
