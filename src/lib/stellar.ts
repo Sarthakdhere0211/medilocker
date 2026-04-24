@@ -1,19 +1,5 @@
 import * as StellarSdk from '@stellar/stellar-sdk';
-import * as FreighterApi from '@stellar/freighter-api';
-
-/**
- * Robustly get a method from Freighter API regardless of module structure
- */
-const getFreighterMethod = (name: string) => {
-  const method = (FreighterApi as any)[name] || (FreighterApi as any).default?.[name];
-  if (!method) {
-    console.warn(`[Freighter] Method ${name} not found in @stellar/freighter-api`);
-  }
-  return method;
-};
-
-const signTransaction = getFreighterMethod('signTransaction');
-const isConnected = getFreighterMethod('isConnected');
+import { isConnected, signTransaction } from '@stellar/freighter-api';
 
 /**
  * Robustly handle extension communication errors
@@ -143,16 +129,18 @@ export async function uploadRecordOnChain(
     }
 
     // Verify connection status before signing
-    if (isConnected) {
-      const isStillConnected = await isConnected();
-      if (!isStillConnected) {
-        throw new Error('Wallet is disconnected or locked. Please unlock Freighter.');
-      }
+    const connection = await isConnected();
+    if (!connection.isConnected) {
+      throw new Error('Wallet is disconnected or locked. Please unlock Freighter.');
     }
 
     let signedXDR;
     try {
-      signedXDR = await signTransaction(xdr, { network: 'TESTNET' });
+      const result = await signTransaction(xdr, { 
+        networkPassphrase: (NetworksNamespace as any).TESTNET 
+      });
+      if (result.error) throw new Error(result.error);
+      signedXDR = result.signedTxXdr;
     } catch (e: any) {
       throw handleExtensionError(e);
     }
@@ -263,13 +251,18 @@ export async function shareRecordOnChain(
 
     console.log('[Stellar] Requesting signature from Freighter...');
     const xdr = transaction.toXDR();
-    const signedXDR = await (FreighterApi as any).signTransaction(xdr, { network: 'TESTNET' });
+    const signResult = await signTransaction(xdr, { 
+      networkPassphrase: (NetworksNamespace as any).TESTNET 
+    });
+
+    if (signResult.error) throw new Error(signResult.error);
+    const signedXDR = signResult.signedTxXdr;
     
     console.log('[Stellar] Submitting transaction to Horizon...');
     const signedTx = new (TransactionBuilderClass as any).fromXDR(signedXDR, (NetworksNamespace as any).TESTNET);
-    const result = await (horizonServer as any).submitTransaction(signedTx);
+    const submitResult = await (horizonServer as any).submitTransaction(signedTx);
     
-    const txHash = result.hash;
+    const txHash = submitResult.hash;
     console.log('[Stellar] Transaction successful! Hash:', txHash);
     return { hash: txHash };
   } catch (err: any) {

@@ -53,15 +53,7 @@ export const Dashboard = () => {
         await fetchBalance(publicKey)
       }
 
-      let analytics = await fetchAnalyticsData()
-      
-      // Auto-seed if in demo mode and users are less than 30 (to show 30+ users)
-      if (isDemoConfig && analytics.totalUsers < 30) {
-        console.log('[Dashboard] Auto-seeding production simulation data (30+ users)...')
-        await seedProductionData()
-        analytics = await fetchAnalyticsData()
-      }
-
+      const analytics = await fetchAnalyticsData()
       const logs = await fetchRecentActivity(8)
       setMetrics(analytics as any)
       setActivityLogs(logs)

@@ -11,7 +11,7 @@
     "test": "echo \"No tests yet\""
   },
   "dependencies": {
-    "@stellar/freighter-api": "^1.7.0",
+    "@stellar/freighter-api": "^6.0.1",
     "@stellar/stellar-sdk": "^11.3.0",
     "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.0",
