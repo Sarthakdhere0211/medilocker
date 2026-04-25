@@ -314,6 +314,8 @@ MediLocker uses a hybrid on-chain + off-chain indexing model to ensure both secu
 - **No Sensitive Data On-Chain**  
   Only file hashes (references) are stored, ensuring privacy.
 
+  🔗 Full Security Policy: [SECURITY.md](./SECURITY.md)
+
 ---
 
 ### 🧠 Smart Contract Logic Flow
