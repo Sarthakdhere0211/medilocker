@@ -94,8 +94,7 @@ Users submitted their details via a Google Form including:
 | Yashvant Dayanand Mane   | [yashvantmane98@gmail.com](mailto:yashvantmane98@gmail.com)             | GAZ7WFVY743JAIX5YH3JPP6OIU6ACGCCHURQFVYOBYUNFISY6CRX76PU |
 | Aditya Dipak Suryawanshi | [suryawanshiaditya621@gmail.com](mailto:suryawanshiaditya621@gmail.com) | GA7S6ATSGEGYIOUALG7UB6RD6WBHWV7BG3P5HXOCEZNRLHTGKR5NWNE5 |
 | Rahul Joshi              | [devopsjoshi121@gmail.com](mailto:devopsjoshi121@gmail.com)             | GCMMQJC7GCQGHEIJZXF6CIH4WO46J656JTYRBUBYURKBKASZ4WSSOKZR |
-| Dhruva Mandavkar         | dhruvamandavkar![0@gmail.com](mailto:0@gmail.com)                       | GCNZQIWTFG5BBUOIHGGADL5MU63BJR6L2OGFVSMSOBFXJ34QIVSUQSGO |
-| Abhishek Funde           | [xlysyldly@gmail.com](mailto:xlysyldly@gmail.com)                       | GAOJ6OMZ5VJ7P7QLWOE6SKIG5UNQ32SLODAAO2NLPDEPNDDK5KE5II3R |
+| Dhruva Mandavkar         | dhruvamandavkar10@gmail.com](mailto:0@gmail.com)                       | GCNZQIWTFG5BBUOIHGGADL5MU63BJR6L2OGFVSMSOBFXJ34QIVSUQSGO |
 | Madhuri Mane             | [madhurimane162007@gmail.com](mailto:madhurimane162007@gmail.com)       | GB7HL2NUPGMDR3EPQUH4BD2ZQB7VIG4KXHSND7CUGTMLQMBNLR2FISKC |
 | Nagesh Moge              | [amonenagesh@gmail.com](mailto:amonenagesh@gmail.com)                   | GAWAUGEW5GPFHV4MNSFGYRLDHHG2V6CTGM4LWLPKF62THHRCN5ZLEEH2 |
 | Somnath Birajdar         | [sbirajdar@gmail.com](mailto:sbirajdar@gmail.com)                       | GAQAYHD3ZEIQPZMJXWMT3675MAO5WU7HOF3C3VFUCHEXUM2XCG6HA7WT |
