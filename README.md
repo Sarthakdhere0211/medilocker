@@ -74,6 +74,68 @@ Your support, feedback, and engagement help us improve and scale MediLocker furt
 
 ---
 
+## 🧾 Development Activity & Commit Proof
+
+MediLocker has been actively developed with 15+ meaningful commits covering core features, fixes, and production readiness.
+
+### 🔍 Key Contributions
+
+* **Feature Development**
+
+  * Network Activity UI redesign with live data simulation
+    → `af6ddfc484eb9e7c8ffffee7b72d2ed77dffa43d`
+  * Monitoring logs implementation
+    → `c14615ac4ed584802df4f880ab3f41657d13fa09`
+
+* **Fixes & Stability**
+
+  * Wallet connection + TypeScript fixes
+    → `adfe71317ad455a107fac3e70beb0e14da0e5794`
+  * Resolve TypeScript errors
+    → `8a264ad5716f80fbd9c92f144cec9eb2fc5da623`
+  * Multi-signature type fixes
+    → `9b61fec1ffb1d8823d410cc5b479c28f21fa196f`
+  * Record type fixes
+    → `623d74e15df50cb2bc22a48aea9735b312b6e51d`
+  * Improved wallet async handling
+    → `b4a48e1a3ddfd60a4917f10f4d181135e59c4332`
+
+* **Infrastructure & DevOps**
+
+  * CI pipeline fixes
+    → `fb7a7d1c3e0863e9fbbfcf0df06da29ad2d4fbf3`
+  * CI stabilization
+    → `4bfbd507a8f1c17ea2cf81216553b21e7dd53e09`
+  * Deployment optimization (Vercel)
+    → `7435274657095b8a4c0d0fd80989a43035c1b491`
+  * Analytics setup
+    → `5ac1cb084e0d0eb344b54a8d020701022b1497b2`
+
+* **Core Development**
+
+  * Smart contract + verified users section
+    → `3a109058be1ea4754b19f5a18c0922df093efa3b`
+  * Initial MVP commit
+    → `f2378c7181c9dd5a8af4702a464efe9a9a65a030`
+
+* **Maintenance**
+
+  * README updates
+    → `dc3b5bac1caf3ce52a61938d2347d36dd86c494c`
+  * Redeploy trigger
+    → `abccd468954e3936569af57f71771060bdd29afc`
+
+---
+
+🔗 GitHub Repository:
+https://github.com/Sarthakdhere0211/medilocker
+
+---
+
+✅ **Status:** 15+ meaningful commits completed with verifiable commit history
+
+---
+
 ## 🏗️ Architecture
 
 ```
