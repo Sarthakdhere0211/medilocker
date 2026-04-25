@@ -100,9 +100,8 @@ Users submitted their details via a Google Form including:
 | Pratiksha Anil Bhabad    | [pratikshabhabad93@gmail.com](mailto:pratikshabhabad93@gmail.com)       | GCN6CWPB6QPG4V7UIN5SQQOTJUWDKBYSJ4DFVC2GIHD5R47I7MMEIFN5 |
 | Yashvant Dayanand Mane   | [yashvantmane98@gmail.com](mailto:yashvantmane98@gmail.com)             | GAZ7WFVY743JAIX5YH3JPP6OIU6ACGCCHURQFVYOBYUNFISY6CRX76PU |
 | Aditya Dipak Suryawanshi | [suryawanshiaditya621@gmail.com](mailto:suryawanshiaditya621@gmail.com) | GA7S6ATSGEGYIOUALG7UB6RD6WBHWV7BG3P5HXOCEZNRLHTGKR5NWNE5 |
-| Rahul                    | Joshi                                                                   | GCMMQJC7GCQGHEIJZXF6CIH4WO46J656JTYRBUBYURKBKASZ4WSSOKZR |
 | Rahul Joshi              | [devopsjoshi121@gmail.com](mailto:devopsjoshi121@gmail.com)             | GCMMQJC7GCQGHEIJZXF6CIH4WO46J656JTYRBUBYURKBKASZ4WSSOKZR |
-| Dhruva Mandavkar         | dhruvamandavkar[0@gmail.com](mailto:0@gmail.com)                       | GCNZQIWTFG5BBUOIHGGADL5MU63BJR6L2OGFVSMSOBFXJ34QIVSUQSGO |
+| Dhruva Mandavkar         | dhruvamandavkar0@gmail.com](mailto:0@gmail.com)                       | GCNZQIWTFG5BBUOIHGGADL5MU63BJR6L2OGFVSMSOBFXJ34QIVSUQSGO |
 | Rajas Badade             | [badaderajas66@gmail.com](mailto:badaderajas66@gmail.com)               | 0xe2934EF7f6D40AA1FA39Aa51F97EA78ebB902e5F               |
 | Abhishek Funde           | [xlysyldly@gmail.com](mailto:xlysyldly@gmail.com)                       | GAOJ6OMZ5VJ7P7QLWOE6SKIG5UNQ32SLODAAO2NLPDEPNDDK5KE5II3R |
 | Madhuri Mane             | [madhurimane162007@gmail.com](mailto:madhurimane162007@gmail.com)       | GB7HL2NUPGMDR3EPQUH4BD2ZQB7VIG4KXHSND7CUGTMLQMBNLR2FISKC |
