@@ -62,6 +62,18 @@ https://medilocker-fawn.vercel.app
 - **64-Byte Optimized**: Intelligent data restructuring to comply with Stellar protocol limits while maintaining rich record metadata.
 
 ---
+
+## 🌍 Community Contribution
+
+We shared **MediLocker** with the Web3 community to spread awareness and gather valuable feedback.
+
+🐦 Twitter Post:
+https://x.com/i/status/2047990652538102175
+
+Your support, feedback, and engagement help us improve and scale MediLocker further 🚀
+
+---
+
 ## 🏗️ Architecture
 
 ```
