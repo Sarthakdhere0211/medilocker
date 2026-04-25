@@ -50,6 +50,32 @@ https://medilocker-fawn.vercel.app
 
 ---
 
+## 📋 User Onboarding & Feedback
+
+We collected user data and feedback through a structured onboarding process.
+
+### 📝 Google Form
+
+Users submitted their details via a Google Form including:
+
+* Name
+* Email
+* Wallet Address
+* Product Feedback (rating)
+
+### 📊 Collected Responses (Excel Sheet)
+
+🔗 https://docs.google.com/spreadsheets/d/10lw4sHEiwL2wvz7W12OXQSCgN-P7ATWm1cYEsYM4_QU/edit?resourcekey=&gid=45861886#gid=45861886
+
+* Responses exported and maintained for analysis
+* Used to track user onboarding and feedback trends
+
+---
+
+✅ **Status:** User onboarding completed with data collection and analysis
+
+---
+
 ## 🚀 Key Features
 
 ### 🔐 Real Wallet Integration
