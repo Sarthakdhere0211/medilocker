@@ -76,7 +76,7 @@ Users submitted their details via a Google Form including:
 
 ---
 
-## 👥 Verified Users (Testnet)
+## 👥 Verified Users (Complete List)
 
 | Name                     | Email                                                                   | Wallet Address                                           |
 | ------------------------ | ----------------------------------------------------------------------- | -------------------------------------------------------- |
@@ -88,25 +88,37 @@ Users submitted their details via a Google Form including:
 | Amey Shinde              | [amey020607@gmail.com](mailto:amey020607@gmail.com)                     | GBYPPXLFFFTJSPG4FVPJXGWO5BQVHF5VA7AGVX3A6B6SV2EB4RR4MSZ6 |
 | Shubham Golekar          | [shubhamgolekar62021@gmail.com](mailto:shubhamgolekar62021@gmail.com)   | GA3PMUXWSCWLT2FMQ76PODPODHLJHOWAHTD7JGOWHGGE5FZ3WWF6EJBO |
 | Om Jitendra Randhir      | [omrandhir1306@gmail.com](mailto:omrandhir1306@gmail.com)               | GC7SAWRPQO7446CY53AQBIOSKG2YJ3SUHERQRMBNHSNFPJ6A7OIWZF7I |
+| Anuj Patil               | [anuj24darkside@gmail.com](mailto:anuj24darkside@gmail.com)             | GCCKKVQS54JRCSTB64AQEQTMNVQBJ7JDDTP7US7ESBXIAQPMNL3P23F6 |
+| Aditya Shisodiya         | [adityasisodiya56412@gmail.com](mailto:adityasisodiya56412@gmail.com)   | GAEJZTWGMZCDGYWOSOVEVT5XTP6WHAK2GLJLG57ZUCJRKHTD4BOVOBF4 |
+| Yash Annadate            | [yashannadate2005@gmail.com](mailto:yashannadate2005@gmail.com)         | GB6B6QEJFY4HAKATRO6MI77WDZ66W4FFPJN6AYLISJEHTLXYFPHQFFTV |
+| Aniket Uday Bhilare      | [bhilareaniket2424@gmail.com](mailto:bhilareaniket2424@gmail.com)       | GA25HZHRBYNMAX3VPS6PGWX3NULSKSNGWY4C32XCMDU45NQM2Y4PIZ3Z |
+| Rohit                    | [mahiidev0211@gmail.com](mailto:mahiidev0211@gmail.com)                 | GCPM2OH2DFE7IKZT2DF5HLLLIU464MQ4WPJ5BMDBJ5RFYTAQXRAAFGYB |
+| Amey Shinde              | [amey020607@gmail.com](mailto:amey020607@gmail.com)                     | GBYPPXLFFFTJSPG4FVPJXGWO5BQVHF5VA7AGVX3A6B6SV2EB4RR4MSZ7 |
+| Shubham Golekar          | [shubhamgolekar62021@gmail.com](mailto:shubhamgolekar62021@gmail.com)   | GA3PMUXWSCWLT2FMQ76PODPODHLJHOWAHTD7JGOWHGGE5FZ3WWF6EJBO |
 | Thanchan Bhumij          | [thanchanb@gmail.com](mailto:thanchanb@gmail.com)                       | GDHPNSQINMCUNO6DOWO7HSAW5NTNO2MDY6LDHGKPJMGLUSUMLVWBJKJ6 |
 | Tejas Burkul             | [tejasburkul49@gmail.com](mailto:tejasburkul49@gmail.com)               | GA5EGHXZVHFJH5AXF6ZTG3MTY5OCFSZNE56I4ADXUSAJMSZF42W7CGYX |
 | Pratiksha Anil Bhabad    | [pratikshabhabad93@gmail.com](mailto:pratikshabhabad93@gmail.com)       | GCN6CWPB6QPG4V7UIN5SQQOTJUWDKBYSJ4DFVC2GIHD5R47I7MMEIFN5 |
 | Yashvant Dayanand Mane   | [yashvantmane98@gmail.com](mailto:yashvantmane98@gmail.com)             | GAZ7WFVY743JAIX5YH3JPP6OIU6ACGCCHURQFVYOBYUNFISY6CRX76PU |
 | Aditya Dipak Suryawanshi | [suryawanshiaditya621@gmail.com](mailto:suryawanshiaditya621@gmail.com) | GA7S6ATSGEGYIOUALG7UB6RD6WBHWV7BG3P5HXOCEZNRLHTGKR5NWNE5 |
+| Rahul                    | Joshi                                                                   | GCMMQJC7GCQGHEIJZXF6CIH4WO46J656JTYRBUBYURKBKASZ4WSSOKZR |
 | Rahul Joshi              | [devopsjoshi121@gmail.com](mailto:devopsjoshi121@gmail.com)             | GCMMQJC7GCQGHEIJZXF6CIH4WO46J656JTYRBUBYURKBKASZ4WSSOKZR |
-| Dhruva Mandavkar         | dhruvamandavkar10@gmail.com](mailto:0@gmail.com)                       | GCNZQIWTFG5BBUOIHGGADL5MU63BJR6L2OGFVSMSOBFXJ34QIVSUQSGO |
+| Dhruva Mandavkar         | dhruvamandavkar[0@gmail.com](mailto:0@gmail.com)                       | GCNZQIWTFG5BBUOIHGGADL5MU63BJR6L2OGFVSMSOBFXJ34QIVSUQSGO |
+| Rajas Badade             | [badaderajas66@gmail.com](mailto:badaderajas66@gmail.com)               | 0xe2934EF7f6D40AA1FA39Aa51F97EA78ebB902e5F               |
+| Abhishek Funde           | [xlysyldly@gmail.com](mailto:xlysyldly@gmail.com)                       | GAOJ6OMZ5VJ7P7QLWOE6SKIG5UNQ32SLODAAO2NLPDEPNDDK5KE5II3R |
 | Madhuri Mane             | [madhurimane162007@gmail.com](mailto:madhurimane162007@gmail.com)       | GB7HL2NUPGMDR3EPQUH4BD2ZQB7VIG4KXHSND7CUGTMLQMBNLR2FISKC |
 | Nagesh Moge              | [amonenagesh@gmail.com](mailto:amonenagesh@gmail.com)                   | GAWAUGEW5GPFHV4MNSFGYRLDHHG2V6CTGM4LWLPKF62THHRCN5ZLEEH2 |
 | Somnath Birajdar         | [sbirajdar@gmail.com](mailto:sbirajdar@gmail.com)                       | GAQAYHD3ZEIQPZMJXWMT3675MAO5WU7HOF3C3VFUCHEXUM2XCG6HA7WT |
 | Vaishnavi Mane           | [Vaishnavimane1611@gmail.com](mailto:Vaishnavimane1611@gmail.com)       | GAUVP3HTXMK753D4XVA6ABLU4N3D5JHIWUGNDDWUNWHDEAV4DVMYPAX3 |
+| Madhuri Mane             | [madhurimane162007@gmail.com](mailto:madhurimane162007@gmail.com)       | GCIN6IC6W75KJBHQSPS5YZ6M3BXJMQRF2Z7B3FN2XFK46FKU53EP55CD |
 | Sudarshan Mane           | [sudarshanmane2007@gmail.com](mailto:sudarshanmane2007@gmail.com)       | GBJW6GR5MLDKIMINHUROBT6WC5RVO4GTSFBLH2J4RGYPQJOTH7DGRJ5R |
 
 ---
 
 ### 📊 Summary
 
-* Total Users: **30 + **
-* Wallets verifiable via Stellar Explorer
+* Total Users: **30+**
+* Includes all onboarding + feedback participants
+* Wallets can be verified via Stellar Explorer
 
 ---
 
