@@ -122,6 +122,30 @@ Users submitted their details via a Google Form including:
 
 ---
 
+## 🔄 Recent Updates Based on User Feedback
+
+We have incorporated additional user feedback to further improve MediLocker’s usability and overall experience.
+
+### 🧠 Key Feedback Addressed
+
+* UI improvements suggested for better visual experience
+* Enhancements needed in analytics dashboard design
+* Dark mode usability improvements requested
+* General UI polish for a more refined and intuitive interface
+
+### 🚀 Updates Implemented
+
+* Improved UI components for better clarity and usability
+* Enhanced analytics section for clearer data visualization
+* Optimized design for smoother user interaction
+* Ongoing work on improving dark mode experience
+
+---
+
+✅ **Status:** Continuous improvements applied based on real user feedback
+
+---
+
 ## 🚀 Key Features
 
 ### 🔐 Real Wallet Integration
