@@ -12,7 +12,7 @@ const handleExtensionError = (err: any) => {
   return err;
 };
 
-const CONTRACT_ID = 'CCF2A7X6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6'; // Placeholder
+// const CONTRACT_ID = 'CCF2A7X6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6M7Y6'; // Placeholder
 const HORIZON_URL = 'https://horizon-testnet.stellar.org';
 
 // Highly resilient way to get the correct classes from the SDK
@@ -34,9 +34,9 @@ const NetworksNamespace = getStellarClass('Networks');
 const BASE_FEE_VALUE = "1000"; // Increased fee for faster inclusion (0.0001 XLM)
 
 // For Soroban interactions
-const ContractClass = getStellarClass('Contract');
-const AddressClass = getStellarClass('Address');
-const xdrNamespace = getStellarClass('xdr');
+// const ContractClass = getStellarClass('Contract');
+// const AddressClass = getStellarClass('Address');
+// const xdrNamespace = getStellarClass('xdr');
 
 const horizonServer = HorizonServer ? new HorizonServer(HORIZON_URL) : null;
 

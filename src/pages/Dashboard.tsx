@@ -5,7 +5,6 @@ import {
   FileText, 
   Share2, 
   Calendar, 
-  HardDrive, 
   Trash2, 
   Search, 
   LayoutGrid, 
@@ -14,7 +13,6 @@ import {
   ExternalLink,
   Wallet,
   Clock,
-  Loader2,
   Upload,
   Activity,
   Users,
@@ -27,7 +25,7 @@ import { UploadModal } from '../components/UploadModal'
 import { ShareModal } from '../components/ShareModal'
 import { PreviewModal } from '../components/PreviewModal'
 import { Sidebar } from '../components/Sidebar'
-import { fetchAnalyticsData, fetchRecentActivity, seedProductionData, fetchIndexedRecords, approveRecord, isDemoConfig } from '../lib/firebase'
+import { fetchAnalyticsData, fetchRecentActivity, fetchIndexedRecords, approveRecord } from '../lib/firebase'
 import { toast } from 'sonner'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
@@ -115,9 +113,8 @@ export const Dashboard = () => {
 
   useEffect(() => {
     loadMetrics()
-    const interval = setInterval(loadMetrics, 30000)
-    return () => clearInterval(interval)
-  }, [publicKey])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const loadAndSyncRecords = async () => {
@@ -144,6 +141,7 @@ export const Dashboard = () => {
     }
 
     loadAndSyncRecords()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publicKey, setRecords, setLoading])
 
   const myRecords = records.filter((r: RecordType) => r.owner === publicKey)
@@ -421,7 +419,7 @@ export const Dashboard = () => {
                       { label: 'Network Users', value: metrics.totalUsers, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
                       { label: 'Verified Proofs', value: metrics.totalRecords, icon: ShieldCheck, color: 'text-emerald-600', bg: 'bg-emerald-50' },
                       { label: 'Ledger Operations', value: metrics.totalTransactions, icon: Activity, color: 'text-purple-600', bg: 'bg-purple-50' }
-                    ].map((stat, i) => (
+                    ].map((stat) => (
                       <motion.div
                         key={stat.label}
                         whileHover={{ y: -5 }}
@@ -502,8 +500,7 @@ export const Dashboard = () => {
                                 r: 6, 
                                 fill: '#0D9488', 
                                 stroke: '#fff', 
-                                strokeWidth: 2,
-                                shadow: '0 0 10px rgba(13, 148, 136, 0.5)'
+                                strokeWidth: 2
                               }}
                             />
                           </AreaChart>
@@ -522,13 +519,12 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="space-y-2 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-                        {activityLogs.length > 0 ? activityLogs.map((log, i) => (
+                        {activityLogs.length > 0 ? activityLogs.map((log) => (
                           <motion.div 
+                            key={log.id || Math.random()}
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: i * 0.05 }}
-                            key={i} 
-                            className="flex gap-4 p-4 rounded-2xl hover:bg-surface-50 dark:hover:bg-surface-800 transition-all group cursor-default border border-transparent hover:border-surface-100 dark:hover:border-surface-700"
+                            className="flex items-center justify-between p-4 bg-surface-50/50 dark:bg-surface-800/30 rounded-2xl border border-surface-100 dark:border-surface-800 hover:bg-white dark:hover:bg-surface-800 transition-all group"
                           >
                             <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 bg-surface-50 dark:bg-surface-800 text-surface-400 group-hover:bg-brand-50 group-hover:text-brand-600`}>
                               {log.type === 'upload' ? <Upload className="w-5 h-5" /> : <Users className="w-5 h-5" />}

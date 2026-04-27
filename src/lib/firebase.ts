@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, arrayUnion, collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, arrayUnion, collection, addDoc, serverTimestamp, query, getDocs, orderBy, limit } from 'firebase/firestore';
 import { RecordType } from '../store/useRecordStore';
 
 // Use environment variables for production security

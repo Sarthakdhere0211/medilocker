@@ -1,5 +1,5 @@
 import React from 'react'
-import { Shield, Github, Twitter, ExternalLink, Mail, ShieldCheck, Globe, Zap } from 'lucide-react'
+import { Github, Twitter, ExternalLink, Mail, ShieldCheck, Globe } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export const Footer = () => {

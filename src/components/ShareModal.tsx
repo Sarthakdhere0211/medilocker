@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Share2, Wallet, CheckCircle2, Loader2, ArrowRight, ShieldCheck, AlertCircle, ExternalLink, Shield } from 'lucide-react'
+import { X, Wallet, CheckCircle2, Loader2, ArrowRight, ShieldCheck, ExternalLink, Shield } from 'lucide-react'
 import { shareRecordOnChain } from '../lib/stellar'
 import { useWalletStore } from '../store/useWalletStore'
 import { useRecordStore, RecordType } from '../store/useRecordStore'

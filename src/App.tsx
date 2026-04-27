@@ -8,7 +8,7 @@ import { Footer } from './components/Footer'
 import { trackUserLogin, logActivity } from './lib/firebase'
 
 function App() {
-  const { isConnected, checkConnection, publicKey } = useWalletStore()
+  const { isConnected, publicKey } = useWalletStore()
   const { isDarkMode } = useThemeStore()
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function App() {
     } else {
       document.documentElement.classList.remove('dark')
     }
-  }, [])
+  }, [isDarkMode])
 
   useEffect(() => {
     if (isConnected && publicKey) {

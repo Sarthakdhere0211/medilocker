@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Shield, Lock, Share2, Database, ChevronRight, Wallet, CheckCircle2, ArrowRight, ShieldCheck, Zap, Globe } from 'lucide-react'
+import { Shield, Lock, Share2, Database, Wallet, CheckCircle2, ArrowRight, ShieldCheck, Zap, Globe } from 'lucide-react'
 import { WalletModal } from '../components/WalletModal'
 
 export const LandingPage = () => {

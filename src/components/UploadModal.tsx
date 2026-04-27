@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Upload, FileText, CheckCircle, Loader2, Info, ExternalLink, ShieldCheck, ArrowRight, Shield, Wallet } from 'lucide-react'
+import { X, Upload, CheckCircle, Loader2, ExternalLink, ShieldCheck, ArrowRight, Shield, Wallet } from 'lucide-react'
 import { useWalletStore } from '../store/useWalletStore'
 import { useRecordStore } from '../store/useRecordStore'
 import { uploadRecordOnChain } from '../lib/stellar'
@@ -15,7 +15,7 @@ interface UploadModalProps {
 const STORAGE_FEE = 0.00 // Minimal network fee only
 
 export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
-  const { publicKey, balance, deductBalance, fetchBalance } = useWalletStore()
+  const { publicKey, balance, fetchBalance } = useWalletStore()
   const { addRecord } = useRecordStore()
   const [step, setStep] = useState<'upload' | 'confirm' | 'success' | 'error'>('upload')
   const [isUploading, setIsUploading] = useState(false)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Shield, LogOut, Wallet, Coins, Globe, ShieldCheck } from 'lucide-react'
+import { LogOut, Wallet, Coins } from 'lucide-react'
 import { useWalletStore } from '../store/useWalletStore'
 import { motion } from 'framer-motion'
 import { ThemeToggle } from './ThemeToggle'

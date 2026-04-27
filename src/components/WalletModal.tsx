@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronRight, Loader2, Shield, Wallet, ArrowRight, ShieldCheck } from 'lucide-react'
+import { X, ChevronRight, Loader2, Shield, ShieldCheck } from 'lucide-react'
 import { useWalletStore } from '../store/useWalletStore'
 
 interface WalletModalProps {
@@ -23,7 +23,7 @@ const AlbedoLogo = () => (
 )
 
 export const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
-  const { connectFreighter, isLoading, isConnected: isWalletConnected } = useWalletStore()
+  const { connectFreighter, isLoading } = useWalletStore()
 
   const handleFreighter = async () => {
     try {

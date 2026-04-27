@@ -1,5 +1,5 @@
 import React from 'react'
-import { LayoutDashboard, FileText, Share2, Shield, Settings, HelpCircle, LogOut, Clock, Activity } from 'lucide-react'
+import { LayoutDashboard, FileText, Share2, Shield, Settings, HelpCircle, LogOut, Clock } from 'lucide-react'
 import { useWalletStore } from '../store/useWalletStore'
 import { motion } from 'framer-motion'
 import { ThemeToggle } from './ThemeToggle'
